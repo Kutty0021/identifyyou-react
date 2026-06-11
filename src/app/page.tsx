@@ -4,8 +4,17 @@ import Hero from "@/components/home/Hero";
 import Services from "@/components/home/Services";
 import CaseStudies from "@/components/home/CaseStudies";
 import PartnersCarousel from "@/components/home/PartnersCarousel";
+import data from "@/data/api_pipeline_data.json";
 
 export default function Home() {
+  const homeData = data.find(p => p.slug === '' || p.slug === '/' || p.slug === 'home');
+  
+  // Find specific text from the API payload that matches the previous hardcoded text's semantic meaning
+  // We can search the paragraphs for matching content to keep it robust against ordering changes
+  const abmHeading = homeData?.sections?.headings.find(h => h.includes("Precision ABM")) || "Precision ABM Powered by Snowflake Cortex AI";
+  const abmParagraph = homeData?.sections?.paragraphs.find(p => p.includes("High-level visibility")) || "High-level visibility meets operational agility. Our latest implementation within the Snowflake AI Data Cloud empowers Sales Leaders with trend analysis and equips AEs with AI-driven deal health scores—all in a single pane of glass.";
+  const featuredImage = homeData?.images.find(img => img.includes("Edge-Computing") || img.includes("T40")) || "/images/T40-Edge-Computing-Image.jpg";
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       <Hero />
@@ -18,8 +27,8 @@ export default function Home() {
             <div className="w-full lg:w-1/2">
               <div className="relative aspect-[4/3] w-full rounded-2xl shadow-2xl shadow-blue-900/10 overflow-hidden border-4 border-white">
                 <Image
-                  src="/images/T40-Edge-Computing-Image.jpg"
-                  alt="Precision ABM"
+                  src={featuredImage}
+                  alt={abmHeading}
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
                   className="object-cover hover:scale-105 transition-transform duration-700"
@@ -31,11 +40,9 @@ export default function Home() {
                 <span className="w-2 h-2 rounded-full bg-blue-600 mr-2 animate-pulse"></span>
                 Featured Solution
               </div>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 leading-tight">
-                Precision ABM Powered by <span className="text-blue-600">Snowflake Cortex AI</span>
-              </h2>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-6 leading-tight" dangerouslySetInnerHTML={{ __html: abmHeading.replace('Snowflake Cortex AI', '<span class="text-blue-600">Snowflake Cortex AI</span>') }} />
               <p className="text-lg text-gray-600 mb-8 leading-relaxed">
-                High-level visibility meets operational agility. Our latest implementation within the Snowflake AI Data Cloud empowers Sales Leaders with trend analysis and equips AEs with AI-driven deal health scores—all in a single pane of glass.
+                {abmParagraph}
               </p>
               <ul className="space-y-4 mb-10">
                 <li className="flex items-start bg-gray-50 p-4 rounded-lg">

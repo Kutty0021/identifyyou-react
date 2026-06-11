@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
+import data from "@/data/api_pipeline_data.json";
 
 export const metadata = {
   title: "Gallery | Identifyyou",
@@ -7,6 +8,24 @@ export const metadata = {
 };
 
 export default function Page() {
+  const galleryData = data.find(p => p.slug === 'gallery');
+  
+  const heading = galleryData?.sections?.headings[0] || "Gallery";
+  const paragraph = galleryData?.sections?.paragraphs[0] || "A visual journey through our projects, team events, and technological innovations.";
+  
+  // Use images from the API, fallback to placeholders if less than 6
+  const apiImages = galleryData?.images || [];
+  const defaultImages = [
+    "/images/team2.jpg",
+    "/images/h3-about1-1.jpg",
+    "/images/team3.jpg",
+    "/images/team7.jpg",
+    "/images/Account-Based-Sales-Marketing.jpg",
+    "/images/team2.jpg"
+  ];
+  
+  const displayImages = [...apiImages, ...defaultImages].slice(0, 6);
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
@@ -14,9 +33,9 @@ export default function Page() {
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">Gallery</h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">{heading}</h1>
             <p className="text-xl text-blue-100 leading-relaxed">
-              A visual journey through our projects, team events, and technological innovations.
+              {paragraph}
             </p>
           </div>
         </div>
@@ -33,59 +52,17 @@ export default function Page() {
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            <div className="relative aspect-[4/3] w-full rounded-2xl shadow-sm hover:shadow-xl transition-shadow overflow-hidden group">
-              <Image
-                src="/images/team2.jpg"
-                alt="Team Collaboration"
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-            <div className="relative aspect-[4/3] w-full rounded-2xl shadow-sm hover:shadow-xl transition-shadow overflow-hidden group">
-              <Image
-                src="/images/h3-about1-1.jpg"
-                alt="Office Discussion"
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-            <div className="relative aspect-[4/3] w-full rounded-2xl shadow-sm hover:shadow-xl transition-shadow overflow-hidden group">
-              <Image
-                src="/images/team3.jpg"
-                alt="Development Sync"
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-            <div className="relative aspect-[4/3] w-full rounded-2xl shadow-sm hover:shadow-xl transition-shadow overflow-hidden group">
-              <Image
-                src="/images/team7.jpg"
-                alt="Leadership"
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-            <div className="relative aspect-[4/3] w-full rounded-2xl shadow-sm hover:shadow-xl transition-shadow overflow-hidden group">
-              <Image
-                src="/images/Account-Based-Sales-Marketing.jpg"
-                alt="Marketing Event"
-                fill
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                className="object-cover group-hover:scale-105 transition-transform duration-500"
-              />
-            </div>
-            <div className="relative aspect-[4/3] w-full rounded-2xl shadow-sm hover:shadow-xl transition-shadow overflow-hidden group flex items-center justify-center bg-gray-50 border border-dashed border-gray-300">
-              <div className="text-center p-6">
-                <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                <p className="mt-2 text-sm font-medium text-gray-900">More updates coming soon</p>
+            {displayImages.map((src, idx) => (
+              <div key={idx} className="relative aspect-[4/3] w-full rounded-2xl shadow-sm hover:shadow-xl transition-shadow overflow-hidden group bg-gray-50">
+                <Image
+                  src={src}
+                  alt={`Gallery Image ${idx + 1}`}
+                  fill
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  className="object-cover group-hover:scale-105 transition-transform duration-500"
+                />
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>

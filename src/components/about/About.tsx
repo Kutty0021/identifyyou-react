@@ -1,7 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
+import data from "@/data/api_pipeline_data.json";
 
 export default function About() {
+  const aboutData = data.find(p => p.slug === 'aboutus');
+  // Since the previous script didn't extract paragraphs well for About Us, we use fallbacks or best available headings.
+  const heading = aboutData?.sections?.headings[0] || "Providing Best Technology IT Services";
+  const image1 = aboutData?.images?.[0] || "/images/team2.jpg";
+  const image2 = aboutData?.images?.[1] || "/images/h3-about1-1.jpg";
+
   return (
     <div className="bg-white">
       {/* Mission & Vision Section */}
@@ -11,7 +18,7 @@ export default function About() {
             <div>
               <h2 className="text-sm font-semibold text-primary tracking-wide uppercase mb-2">About Us</h2>
               <h3 className="text-3xl lg:text-4xl font-bold text-gray-900 mb-6">
-                Providing Best Technology IT Services
+                {heading}
               </h3>
               <p className="text-lg text-gray-600 mb-6 leading-relaxed">
                 While we take responsibility of your Technology roadmap, Implementation and Maintenance, you can focus on your Business.
@@ -39,7 +46,7 @@ export default function About() {
             <div className="grid grid-cols-2 gap-4">
               <div className="relative aspect-square w-full rounded-2xl shadow-lg overflow-hidden mt-8">
                 <Image
-                  src="/images/team2.jpg"
+                  src={image1}
                   alt="Team collaboration"
                   fill
                   sizes="(max-width: 1024px) 50vw, 25vw"
@@ -48,7 +55,7 @@ export default function About() {
               </div>
               <div className="relative aspect-square w-full rounded-2xl shadow-lg overflow-hidden">
                 <Image
-                  src="/images/h3-about1-1.jpg"
+                  src={image2}
                   alt="Office discussion"
                   fill
                   sizes="(max-width: 1024px) 50vw, 25vw"

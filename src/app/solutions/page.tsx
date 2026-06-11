@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import data from "@/data/api_pipeline_data.json";
 
 export const metadata = {
   title: "Our Solutions | Identifyyou",
@@ -6,6 +7,21 @@ export const metadata = {
 };
 
 export default function Page() {
+  const solutionsData = data.find(p => p.slug === 'solutions');
+  
+  const heading = solutionsData?.title || "Our Solutions";
+  
+  // Extract parsed sections to dynamically generate the list
+  const rawSections = solutionsData?.sections?.serviceSections || [];
+  
+  const formattedSolutions = rawSections.map(section => {
+    // The string is separated by tabs and newlines, let's clean it up
+    const parts = section.split('\n').map(s => s.trim()).filter(s => s.length > 0);
+    const title = parts[0] || "Solution";
+    const description = parts.slice(1).join(" ") || "Discover how this solution can benefit your enterprise.";
+    return { title, description };
+  });
+
   return (
     <div className="flex flex-col min-h-screen bg-white">
       {/* Hero Section */}
@@ -13,7 +29,7 @@ export default function Page() {
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-3xl mx-auto">
-            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">Our Solutions</h1>
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">{heading}</h1>
             <p className="text-xl text-blue-100 leading-relaxed">
               A comprehensive suite of technology solutions designed to modernize your infrastructure and accelerate growth.
             </p>
@@ -36,39 +52,31 @@ export default function Page() {
             <div className="bg-gray-50 rounded-2xl p-8 lg:p-12 border border-gray-100 shadow-sm">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Key Enterprise Solutions</h3>
               <ul className="space-y-6">
-                <li className="flex items-start">
-                  <div className="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center shrink-0 mr-4">
-                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-                    </svg>
-                  </div>
-                  <div>
-                    <span className="block text-gray-900 font-bold mb-1">Custom Digital Engineering</span>
-                    <span className="text-gray-600 text-sm">Python, NodeJS, and ReactJS expertise.</span>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center shrink-0 mr-4">
-                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <span className="block text-gray-900 font-bold mb-1">Microsoft PowerApps</span>
-                    <span className="text-gray-600 text-sm">Low-code rapid application development.</span>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <div className="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center shrink-0 mr-4">
-                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <span className="block text-gray-900 font-bold mb-1">CRM & ERP Implementation</span>
-                    <span className="text-gray-600 text-sm">End-to-end integration and customization.</span>
-                  </div>
-                </li>
+                {formattedSolutions.length > 0 ? formattedSolutions.map((sol, index) => (
+                  <li key={index} className="flex items-start">
+                    <div className="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center shrink-0 mr-4">
+                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                      </svg>
+                    </div>
+                    <div>
+                      <span className="block text-gray-900 font-bold mb-1">{sol.title}</span>
+                      <span className="text-gray-600 text-sm">{sol.description}</span>
+                    </div>
+                  </li>
+                )) : (
+                  <li className="flex items-start">
+                    <div className="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center shrink-0 mr-4">
+                      <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                      </svg>
+                    </div>
+                    <div>
+                      <span className="block text-gray-900 font-bold mb-1">Custom Digital Engineering</span>
+                      <span className="text-gray-600 text-sm">Python, NodeJS, and ReactJS expertise.</span>
+                    </div>
+                  </li>
+                )}
               </ul>
             </div>
           </div>

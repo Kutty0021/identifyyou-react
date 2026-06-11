@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import data from "@/data/api_data.json";
+import data from "@/data/api_pipeline_data.json";
 
 export default function CaseStudies() {
   const caseStudies = data

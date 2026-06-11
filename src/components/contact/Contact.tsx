@@ -1,4 +1,18 @@
+import data from "@/data/api_pipeline_data.json";
+
 export default function Contact() {
+  const contactData = data.find(p => p.slug === 'contact-us');
+  
+  // Extracting details from API data (or using fallbacks to ensure structural integrity)
+  const mainParagraph = contactData?.sections?.paragraphs[0] || "Have a question or want to work together? Leave your details and we will get back to you as soon as possible.";
+  const ukHeading = contactData?.sections?.headings.find(h => h.includes("UK")) || "UK Office";
+  const indiaHeading = contactData?.sections?.headings.find(h => h.includes("India")) || "India Office";
+  
+  // Formatted India Address from the extracted paragraphs
+  const indiaAddress = contactData?.sections?.paragraphs
+    .filter(p => p.includes("Survey") || p.includes("Plot") || p.includes("Floor") || p.includes("Madurai") || p.includes("India 625"))
+    .join(" ") || "Survey Number : 149/4, Plot Number : B-3 , First Floor, Pandi Kovil Ring Road, Madurai, Tamil Nadu, India 625 107";
+
   return (
     <section className="py-20 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -6,7 +20,7 @@ export default function Contact() {
           <h2 className="text-3xl font-bold text-gray-900 mb-4">Get In Touch</h2>
           <div className="w-24 h-1 bg-primary mx-auto mb-8"></div>
           <p className="text-lg text-gray-600">
-            Have a question or want to work together? Leave your details and we will get back to you as soon as possible.
+            {mainParagraph}
           </p>
         </div>
 
@@ -25,7 +39,7 @@ export default function Contact() {
                   </div>
                 </div>
                 <div className="ml-4">
-                  <h3 className="text-lg font-medium text-gray-900">UK Office</h3>
+                  <h3 className="text-lg font-medium text-gray-900">{ukHeading}</h3>
                   <p className="mt-1 text-gray-600">Flat 2, 3 Northwood Avenue,<br />Purley, London, UK CR8 2ER.</p>
                 </div>
               </div>
@@ -40,8 +54,8 @@ export default function Contact() {
                   </div>
                 </div>
                 <div className="ml-4">
-                  <h3 className="text-lg font-medium text-gray-900">India Office</h3>
-                  <p className="mt-1 text-gray-600">Survey Number : 149/4, Plot Number : B-3 , First Floor,<br />Pandi Kovil Ring Road, Madurai, Tamil Nadu, India 625 107</p>
+                  <h3 className="text-lg font-medium text-gray-900">{indiaHeading}</h3>
+                  <p className="mt-1 text-gray-600">{indiaAddress}</p>
                 </div>
               </div>
 

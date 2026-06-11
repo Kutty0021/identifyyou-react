@@ -1,10 +1,9 @@
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
-import data from '@/data/api_data.json';
+import data from '@/data/api_pipeline_data.json';
 
 export async function generateStaticParams() {
   return data.map((item) => {
-    // Convert e.g. "/services/erp" into ["services", "erp"]
     const slugArray = item.slug.split('/').filter(Boolean);
     return {
       slug: slugArray.length > 0 ? slugArray : ['home'],
@@ -16,7 +15,6 @@ export default async function ScrapedPage({ params }: { params: Promise<{ slug: 
   const { slug } = await params;
   const currentSlug = '/' + slug.join('/');
   
-  // Find the API item that matches the slug
   const pageData = data.find((item) => item.slug === currentSlug || item.slug + '/' === currentSlug);
 
   if (!pageData) {

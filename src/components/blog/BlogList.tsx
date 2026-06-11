@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import data from "@/data/api_data.json";
+import data from "@/data/api_pipeline_data.json";
 
 export default function BlogList() {
   // Filter for blogs/news
@@ -18,7 +18,7 @@ export default function BlogList() {
         title: post.title,
         category: category.toUpperCase(),
         date: "Recent",
-        excerpt: post.paragraphs && post.paragraphs.length > 0 ? post.paragraphs[0].substring(0, 150) + "..." : "",
+        excerpt: post.sections.paragraphs && post.sections.paragraphs.length > 0 ? post.sections.paragraphs[0].substring(0, 150) + "..." : "",
         image: imageFile,
         link: post.slug
       };

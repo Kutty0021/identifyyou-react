@@ -1,17 +1,33 @@
-import React from 'react';
+const fs = require('fs');
+const path = require('path');
+
+const slugs = [
+  'smart-mobility',
+  'edge-computing',
+  'crm-solutions',
+  'erp-solutions',
+  'snowflake-case-studies',
+  'power-bi-case-studies'
+];
+
+slugs.forEach(slug => {
+  const filePath = path.join('src', 'app', slug, 'page.tsx');
+  if (fs.existsSync(filePath)) {
+    const componentName = slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join('') + 'Page';
+    const content = `import React from 'react';
 import data from '@/data/api_pipeline_data.json';
 import { notFound } from 'next/navigation';
 
 export function generateMetadata() {
-  const pageData = data.find(p => p.slug === 'snowflake-case-studies');
+  const pageData = data.find(p => p.slug === '${slug}');
   if (!pageData) return { title: 'Not Found' };
   return {
-    title: `${pageData.title} | Identifyyou`,
+    title: \`\${pageData.title} | Identifyyou\`,
   };
 }
 
-export default function SnowflakeCaseStudiesPage() {
-  const pageData = data.find(p => p.slug === 'snowflake-case-studies');
+export default function ${componentName}() {
+  const pageData = data.find(p => p.slug === '${slug}');
 
   if (!pageData) {
     notFound();
@@ -35,3 +51,10 @@ export default function SnowflakeCaseStudiesPage() {
     </div>
   );
 }
+`;
+    fs.writeFileSync(filePath, content);
+    console.log('Updated ' + slug);
+  } else {
+    console.log('Not found: ' + slug);
+  }
+});
