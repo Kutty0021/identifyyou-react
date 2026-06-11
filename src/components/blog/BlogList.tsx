@@ -26,7 +26,7 @@ export default function BlogList() {
 
   return (
     <section className="py-20 bg-[#1a1a1a]">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-[1200px] mx-auto px-5">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl font-bold text-white mb-4">Latest Insights</h2>
           <div className="w-24 h-1 bg-primary mx-auto mb-8"></div>

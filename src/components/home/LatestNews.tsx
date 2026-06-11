@@ -24,8 +24,8 @@ export default function LatestNews() {
   ];
 
   return (
-    <section className="py-24 bg-[#121212]">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 bg-[#121212]">
+      <div className="max-w-[1200px] mx-auto px-5">
         <div className="text-center mb-16">
           <p className="text-primary font-bold tracking-widest uppercase mb-4">Recent News</p>
           <h2 className="text-[40px] md:text-[50px] font-extrabold text-white mb-6 tracking-tight">Explore Latest News</h2>

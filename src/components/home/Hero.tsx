@@ -23,9 +23,9 @@ export default function Hero() {
         <div className="absolute inset-0 bg-[#222222]/80" />
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 py-20 lg:py-32 w-full mt-10">
+      <div className="max-w-[1200px] mx-auto px-5 relative z-10 py-20 lg:py-20 w-full mt-10">
         <div className="text-center max-w-5xl mx-auto">
-          <h1 className="text-4xl md:text-5xl lg:text-[54px] font-bold text-white tracking-tight mb-6 leading-[1.2]">
+          <h1 className="text-4xl md:text-5xl lg:text-[58px] font-bold text-white tracking-tight mb-6 leading-[1.1]">
             {heading}
           </h1>
           <p className="text-lg md:text-xl text-gray-300 mb-10 max-w-4xl mx-auto leading-relaxed">

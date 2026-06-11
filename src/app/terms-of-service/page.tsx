@@ -7,11 +7,11 @@ export default function Page() {
   return (
     <div className="flex flex-col min-h-screen bg-gray-50">
       <div className="bg-primary py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1200px] mx-auto px-5">
           <h1 className="text-4xl md:text-5xl font-bold text-white text-center">Terms Of Service</h1>
         </div>
       </div>
-      <div className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="py-20 max-w-[1200px] mx-auto px-5">
         <div className="prose prose-lg mx-auto bg-white p-8 lg:p-12 rounded-xl shadow-sm border border-gray-100">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">1. Introduction</h2>
           <p className="text-gray-600 mb-6 leading-relaxed">

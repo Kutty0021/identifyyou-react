@@ -9,8 +9,8 @@ const partners = [
 
 export default function PartnersCarousel() {
   return (
-    <section className="py-24 bg-[#0a0a0a] border-t border-[#333]">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 bg-[#0a0a0a] border-t border-[#333]">
+      <div className="max-w-[1200px] mx-auto px-5">
         <h2 className="text-[40px] md:text-[50px] font-extrabold text-white mb-16 text-center tracking-tight">Partnership</h2>
         <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-80 hover:opacity-100 transition-opacity duration-500">
           {partners.map((partner, idx) => (

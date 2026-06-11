@@ -12,8 +12,8 @@ export default function About() {
   return (
     <div className="bg-[#1a1a1a]">
       {/* Mission & Vision Section */}
-      <section className="py-20 lg:py-32">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 lg:py-20">
+        <div className="max-w-[1200px] mx-auto px-5">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <h2 className="text-sm font-semibold text-primary tracking-wide uppercase mb-2">About Us</h2>
@@ -87,7 +87,7 @@ export default function About() {
 
       {/* Why Choose Us */}
       <section className="py-20 bg-[#121212] border-t border-[#333]">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1200px] mx-auto px-5">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="text-3xl font-bold text-white mb-4">Why Choose Identifyyou?</h2>
             <div className="w-24 h-1 bg-primary mx-auto"></div>
@@ -135,7 +135,7 @@ export default function About() {
 
       {/* CTA Section */}
       <section className="py-20 bg-[#0a0a0a] border-t border-[#333]">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-[1200px] mx-auto px-5 text-center">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">Ready to Transform Your Business?</h2>
           <p className="text-lg text-gray-400 mb-10 max-w-2xl mx-auto">
             Let's discuss how our tailored IT solutions can drive growth and operational efficiency for your organization.

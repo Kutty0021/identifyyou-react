@@ -40,8 +40,8 @@ export default function Header() {
   return (
     <>
       <header className="fixed w-full top-0 z-[60] bg-[#121212] border-b border-[#333] shadow-md">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-[90px]">
+        <div className="max-w-[1200px] mx-auto px-5">
+          <div className="flex justify-between items-center h-[80px]">
             {/* Logo */}
             <div className="flex-shrink-0 flex items-center">
               <Link href="/" onClick={() => setIsMobileMenuOpen(false)}>
@@ -101,14 +101,14 @@ export default function Header() {
 
       {/* Mobile Navigation Overlay - Placed outside header for better z-index context */}
       <div 
-        className={`xl:hidden fixed inset-0 top-[90px] z-[40] bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        className={`xl:hidden fixed inset-0 top-[80px] z-[40] bg-black/60 backdrop-blur-sm transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
         onClick={() => setIsMobileMenuOpen(false)}
         aria-hidden="true"
       ></div>
 
       {/* Mobile Navigation Drawer - Placed outside header */}
       <div 
-        className={`xl:hidden fixed top-[90px] right-0 bottom-0 w-64 bg-[#1a1a1a] border-l border-[#333] shadow-2xl z-[50] transform transition-transform duration-300 ease-in-out flex flex-col overflow-y-auto ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
+        className={`xl:hidden fixed top-[80px] right-0 bottom-0 w-64 bg-[#1a1a1a] border-l border-[#333] shadow-2xl z-[50] transform transition-transform duration-300 ease-in-out flex flex-col overflow-y-auto ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}
       >
         <div className="px-4 py-6 space-y-1 flex-grow">
           {navLinks.map((link) => (

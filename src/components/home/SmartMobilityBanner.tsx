@@ -3,7 +3,7 @@ import Image from "next/image";
 
 export default function SmartMobilityBanner() {
   return (
-    <section className="relative py-32 bg-[#121212] overflow-hidden border-t border-[#333]">
+    <section className="relative py-20 bg-[#121212] overflow-hidden border-t border-[#333]">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -15,7 +15,7 @@ export default function SmartMobilityBanner() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#121212] via-[#121212]/80 to-transparent" />
       </div>
 
-      <div className="relative z-10 max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-[1200px] mx-auto px-5">
         <div className="max-w-3xl">
           <h2 className="text-[40px] md:text-[50px] lg:text-[60px] font-extrabold text-white mb-8 leading-[1.1] tracking-tight">
             Your Trusted<br />

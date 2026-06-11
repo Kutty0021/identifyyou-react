@@ -23,8 +23,8 @@ export default function Testimonials() {
   ];
 
   return (
-    <section className="py-24 bg-[#1a1a1a]">
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="py-20 bg-[#1a1a1a]">
+      <div className="max-w-[1200px] mx-auto px-5">
         <div className="text-center mb-16">
           <p className="text-primary font-bold tracking-widest uppercase mb-4">Why People Love Us</p>
           <h2 className="text-[40px] md:text-[50px] font-extrabold text-white mb-4 tracking-tight">Testimonials</h2>

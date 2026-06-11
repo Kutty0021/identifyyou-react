@@ -26,7 +26,7 @@ export default function SolutionsPage() {
     <div className="flex flex-col min-h-screen bg-[#1a1a1a]">
       {/* Page Header */}
       <div className="bg-[#121212] py-20 border-b border-[#333]">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-[1200px] mx-auto px-5">
           <h1 className="text-4xl md:text-5xl font-bold text-white text-center mb-6">{heading}</h1>
           <p className="text-xl text-gray-400 leading-relaxed text-center max-w-3xl mx-auto">
             A comprehensive suite of technology solutions designed to modernize your infrastructure and accelerate growth.
@@ -35,8 +35,8 @@ export default function SolutionsPage() {
       </div>
 
       {/* Main Content */}
-      <section className="py-20 lg:py-32">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 lg:py-20">
+        <div className="max-w-[1200px] mx-auto px-5">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <div>
               <h2 className="text-3xl font-bold text-white mb-6">Enterprise Digital Solutions</h2>
@@ -82,7 +82,7 @@ export default function SolutionsPage() {
 
       {/* CTA */}
       <section className="py-20 bg-[#121212] border-t border-[#333]">
-        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="max-w-[1200px] mx-auto px-5 text-center">
           <h2 className="text-3xl font-bold text-white mb-6">Ready to Accelerate Your Technology Solutions?</h2>
           <p className="text-lg text-gray-400 mb-10 max-w-2xl mx-auto">
             Partner with Identifyyou to leverage cutting-edge technology and domain expertise for your enterprise.
