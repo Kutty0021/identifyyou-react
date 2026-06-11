@@ -1,14 +1,27 @@
-import { getPageDataBySlug, extractCardsFromHtml } from '@/utils/dataFetcher';
+const fs = require('fs');
+const path = require('path');
+
+const gridPages = [
+  { slug: 'case-study', title: 'Case Studies', desc: 'Discover how we deliver transformative IT solutions across various industries and technological domains.' },
+  { slug: 'crm-solutions', title: 'CRM Solutions', desc: 'Comprehensive CRM Implementation, Integration, and Customization to drive customer success.' },
+  { slug: 'erp-solutions', title: 'ERP Solutions', desc: 'Modernize your core business processes with our specialized ERP integrations and dashboards.' },
+  { slug: 'snowflake-case-studies', title: 'Snowflake Case Studies', desc: 'Unleash the Power of Snowflake & AI Data Cloud.' },
+  { slug: 'power-bi-case-studies', title: 'Power BI Case Studies', desc: 'Transform Your Data into Actionable Insights with MS Power BI.' },
+  { slug: 'power-app-case-studies', title: 'Power Apps Case Studies', desc: 'Accelerate Innovation with Microsoft PowerApps.' },
+  { slug: 'ai-ml', title: 'AI & ML Solutions', desc: 'Leveraging AI and Machine Learning to drive next-generation innovation.' }
+];
+
+const template = (title, desc, slug) => `import { getPageDataBySlug, extractCardsFromHtml } from '@/utils/dataFetcher';
 import Link from 'next/link';
 import Image from 'next/image';
 
 export const metadata = {
-  title: "Our Solutions | Identifyyou",
-  description: "Comprehensive Our Solutions driving digital transformation and operational excellence.",
+  title: "${title} | Identifyyou",
+  description: "${desc}",
 };
 
-export default function SolutionsPage() {
-  const pageData = getPageDataBySlug('solutions');
+export default function ${slug.replace(/-./g, x => x[1].toUpperCase()).replace(/^./, x => x.toUpperCase())}Page() {
+  const pageData = getPageDataBySlug('${slug}');
   const cards = pageData ? extractCardsFromHtml(pageData.content || '') : [];
 
   return (
@@ -16,13 +29,13 @@ export default function SolutionsPage() {
       {/* Page Header */}
       <div className="bg-[#121212] pt-[80px] pb-20 border-b border-[#333]">
         <div className="max-w-[1200px] mx-auto px-5 mt-10">
-          <h1 className="text-[40px] md:text-[50px] font-extrabold text-white text-center mb-4 tracking-tight">Our Solutions</h1>
+          <h1 className="text-[40px] md:text-[50px] font-extrabold text-white text-center mb-4 tracking-tight">${title}</h1>
           <p className="text-[18px] md:text-[20px] text-gray-400 text-center max-w-3xl mx-auto leading-relaxed">
-            A comprehensive suite of technology solutions designed to modernize your infrastructure and accelerate growth.
+            ${desc}
           </p>
         </div>
       </div>
-
+      
       <div className="py-20 max-w-[1200px] mx-auto px-5 w-full">
         {cards.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -43,7 +56,7 @@ export default function SolutionsPage() {
                     </div>
                     <div className="p-8 flex flex-col flex-grow">
                       <h3 className="text-xl font-bold text-white mb-4 group-hover:text-[#9ACD32] transition-colors">{card.title}</h3>
-                      <p className="text-gray-400 leading-relaxed mb-6 flex-grow">{card.excerpt || 'Discover how this solution can benefit your enterprise.'}</p>
+                      <p className="text-gray-400 leading-relaxed mb-6 flex-grow">{card.excerpt || 'Discover details about this case study and implementation.'}</p>
                       <div className="flex items-center text-[#9ACD32] font-semibold mt-auto">
                         <span className="uppercase tracking-wider text-sm">View Details</span>
                         <svg className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -57,25 +70,19 @@ export default function SolutionsPage() {
             })}
           </div>
         ) : (
-          <div className="text-center text-gray-400 py-10">No solutions found.</div>
+          <div className="text-center text-gray-400 py-10">No entries found for this category.</div>
         )}
       </div>
-
-      {/* CTA */}
-      <section className="py-20 bg-[#121212] border-t border-[#333]">
-        <div className="max-w-[1200px] mx-auto px-5 text-center">
-          <h2 className="text-3xl font-bold text-white mb-6">Ready to Accelerate Your Technology Solutions?</h2>
-          <p className="text-lg text-gray-400 mb-10 max-w-2xl mx-auto">
-            Partner with Identifyyou to leverage cutting-edge technology and domain expertise for your enterprise.
-          </p>
-          <Link
-            href="/contact-us"
-            className="inline-block bg-[#9ACD32] text-white font-bold px-8 py-4 uppercase tracking-wider text-sm hover:bg-[#86b32b] transition-colors shadow-lg hover:shadow-xl rounded-md"
-          >
-            Consult Our Experts
-          </Link>
-        </div>
-      </section>
     </div>
   );
 }
+`;
+
+gridPages.forEach(page => {
+  const dirPath = path.join(__dirname, 'src', 'app', page.slug);
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true });
+  }
+  fs.writeFileSync(path.join(dirPath, 'page.tsx'), template(page.title, page.desc, page.slug));
+  console.log("Generated " + page.slug + "/page.tsx");
+});

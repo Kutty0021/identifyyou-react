@@ -1,65 +1,65 @@
-import Image from "next/image";
-import Link from "next/link";
-import data from "@/data/api_pipeline_data.json";
+import { getPageDataBySlug } from '@/utils/dataFetcher';
+import Image from 'next/image';
 
 export const metadata = {
   title: "Edge Computing | Identifyyou",
-  description: "Comprehensive Edge Computing solutions driving digital transformation and operational excellence.",
+  description: "Learn more about Edge Computing and our offerings.",
 };
 
-export default function EdgeComputingPage() {
-  const pageData = data.find(p => p.slug === 'edge-computing');
-  const headings = pageData?.sections?.headings || [];
-  const images = pageData?.images || [];
-
-  const caseStudies = headings.map((heading, index) => ({
-    title: heading,
-    imageUrl: images[index] || "/images/Cloud-Data-Migration.png",
-    link: "/edge-computing"
-  }));
+export default function Page() {
+  const pageData = getPageDataBySlug('edge-computing');
 
   return (
     <div className="flex flex-col min-h-screen bg-[#1a1a1a]">
       {/* Page Header */}
-      <div className="bg-[#121212] py-20 border-b border-[#333]">
-        <div className="max-w-[1200px] mx-auto px-5">
-          <h1 className="text-4xl md:text-5xl font-bold text-white text-center mb-4">{pageData?.title || "Edge Computing"}</h1>
+      <div className="bg-[#121212] pt-[80px] pb-20 border-b border-[#333]">
+        <div className="max-w-[1200px] mx-auto px-5 mt-10">
+          <h1 className="text-[40px] md:text-[50px] font-extrabold text-white text-center tracking-tight"
+              dangerouslySetInnerHTML={{ __html: pageData?.title || "Edge Computing" }} 
+          />
         </div>
       </div>
       
-      <div className="py-20">
-        <div className="max-w-[1200px] mx-auto px-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {caseStudies.map((study, index) => (
-              <div 
-                key={index} 
-                className="group bg-[#0a0a0a] border border-[#333] hover:border-gray-500 transition-all duration-300 overflow-hidden flex flex-col"
-              >
-                <div className="relative aspect-[4/3] w-full overflow-hidden bg-white">
-                  <Image 
-                    src={study.imageUrl} 
-                    alt={study.title} 
+      <div className="py-20 max-w-[1200px] mx-auto px-5 w-full">
+        {pageData && pageData.images && pageData.images.length > 0 && (
+          <div className="mb-12 w-full relative aspect-[21/9] rounded-2xl overflow-hidden shadow-2xl border border-[#333]">
+            <Image
+              src={pageData.images[0]}
+              alt="Edge Computing Feature image"
+              fill
+              sizes="(max-width: 1200px) 100vw, 1200px"
+              className="object-cover"
+            />
+          </div>
+        )}
+
+        {pageData?.content ? (
+          <div 
+            className="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-p:text-gray-300 prose-a:text-[#9ACD32] prose-strong:text-white prose-ul:text-gray-300 prose-li:text-gray-300"
+            dangerouslySetInnerHTML={{ __html: pageData.content }} 
+          />
+        ) : (
+          <div className="text-center text-gray-400 py-10">Content is being updated.</div>
+        )}
+
+        {pageData && pageData.images && pageData.images.length > 1 && (
+          <div className="mt-20">
+            <h3 className="text-3xl font-bold text-white mb-10 border-b border-[#333] pb-4">Gallery Overview</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {pageData.images.slice(1).map((imgUrl, idx) => (
+                <div key={idx} className="relative aspect-square rounded-xl overflow-hidden shadow-lg border border-[#333] group">
+                  <Image
+                    src={imgUrl}
+                    alt={`Gallery image ${idx + 1}`}
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-contain p-4 group-hover:scale-105 transition-transform duration-700"
+                    className="object-cover group-hover:scale-110 transition-transform duration-500"
                   />
                 </div>
-                <div className="p-8 flex flex-col flex-grow items-center text-center">
-                  <h3 className="text-xl font-bold text-white mb-6 leading-tight group-hover:text-primary transition-colors flex-grow">
-                    {study.title}
-                  </h3>
-                  
-                  <Link
-                    href={study.link}
-                    className="inline-block bg-primary text-white font-bold px-8 py-3 text-sm tracking-wider uppercase hover:bg-[#86b32b] transition-colors w-full"
-                  >
-                    CASE STUDIES
-                  </Link>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

@@ -1,13 +1,24 @@
-import { getPageDataBySlug } from '@/utils/dataFetcher';
+const fs = require('fs');
+const path = require('path');
+
+const textPages = [
+  { slug: 'smart-mobility', title: 'Smart Mobility', route: 'smart-mobility' },
+  { slug: 'edge-computing', title: 'Edge Computing', route: 'edge-computing' },
+  { slug: 'aboutus', title: 'About Us', route: 'about-us' },
+  { slug: 'contact-us', title: 'Contact Us', route: 'contact-us' },
+  { slug: 'gallery', title: 'Gallery', route: 'gallery' }
+];
+
+const template = (title, slug) => `import { getPageDataBySlug } from '@/utils/dataFetcher';
 import Image from 'next/image';
 
 export const metadata = {
-  title: "Gallery | Identifyyou",
-  description: "Learn more about Gallery and our offerings.",
+  title: "${title} | Identifyyou",
+  description: "Learn more about ${title} and our offerings.",
 };
 
 export default function Page() {
-  const pageData = getPageDataBySlug('gallery');
+  const pageData = getPageDataBySlug('${slug}');
 
   return (
     <div className="flex flex-col min-h-screen bg-[#1a1a1a]">
@@ -15,7 +26,7 @@ export default function Page() {
       <div className="bg-[#121212] pt-[80px] pb-20 border-b border-[#333]">
         <div className="max-w-[1200px] mx-auto px-5 mt-10">
           <h1 className="text-[40px] md:text-[50px] font-extrabold text-white text-center tracking-tight"
-              dangerouslySetInnerHTML={{ __html: pageData?.title || "Gallery" }} 
+              dangerouslySetInnerHTML={{ __html: pageData?.title || "${title}" }} 
           />
         </div>
       </div>
@@ -25,7 +36,7 @@ export default function Page() {
           <div className="mb-12 w-full relative aspect-[21/9] rounded-2xl overflow-hidden shadow-2xl border border-[#333]">
             <Image
               src={pageData.images[0]}
-              alt="Gallery Feature image"
+              alt="${title} Feature image"
               fill
               sizes="(max-width: 1200px) 100vw, 1200px"
               className="object-cover"
@@ -50,7 +61,7 @@ export default function Page() {
                 <div key={idx} className="relative aspect-square rounded-xl overflow-hidden shadow-lg border border-[#333] group">
                   <Image
                     src={imgUrl}
-                    alt={`Gallery image ${idx + 1}`}
+                    alt={\`Gallery image \${idx + 1}\`}
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="object-cover group-hover:scale-110 transition-transform duration-500"
@@ -64,3 +75,13 @@ export default function Page() {
     </div>
   );
 }
+`;
+
+textPages.forEach(page => {
+  const dirPath = path.join(__dirname, 'src', 'app', page.route);
+  if (!fs.existsSync(dirPath)) {
+    fs.mkdirSync(dirPath, { recursive: true });
+  }
+  fs.writeFileSync(path.join(dirPath, 'page.tsx'), template(page.title, page.slug));
+  console.log("Generated " + page.route + "/page.tsx");
+});
