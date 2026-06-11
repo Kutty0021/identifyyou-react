@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const metadata = {
   title: "Gallery | Identifyyou",
@@ -24,43 +25,66 @@ export default function Page() {
       {/* Main Content */}
       <section className="py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Overview</h2>
-              <div className="prose prose-lg text-gray-600">
-                <p className="mb-6 leading-relaxed">Explore our gallery to see the Identifyyou team in action. From intensive collaborative workshops and client deployments to industry conferences and team-building events.</p>
-                <p className="mb-6 leading-relaxed">Our culture is built on continuous learning and collaborative problem-solving, and these snapshots capture the essence of our dynamic work environment.</p>
-              </div>
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">Our Team in Action</h2>
+            <p className="text-lg text-gray-600">
+              Explore our gallery to see the IdentifYou team in action. From intensive collaborative workshops and client deployments to industry conferences and team-building events.
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="relative aspect-[4/3] w-full rounded-2xl shadow-sm hover:shadow-xl transition-shadow overflow-hidden group">
+              <Image
+                src="/images/team2.jpg"
+                alt="Team Collaboration"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
             </div>
-            
-            <div className="bg-gray-50 rounded-2xl p-8 lg:p-12 border border-gray-100 shadow-sm">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Key Capabilities</h3>
-              <ul className="space-y-4">
-                <li className="flex items-start">
-                  <svg className="w-6 h-6 text-primary mt-1 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700 font-medium">Industry conference keynotes</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="w-6 h-6 text-primary mt-1 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700 font-medium">Client onsite deployments</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="w-6 h-6 text-primary mt-1 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700 font-medium">Team hackathons and innovation labs</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="w-6 h-6 text-primary mt-1 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700 font-medium">Corporate social responsibility initiatives</span>
-                </li>
-              </ul>
+            <div className="relative aspect-[4/3] w-full rounded-2xl shadow-sm hover:shadow-xl transition-shadow overflow-hidden group">
+              <Image
+                src="/images/h3-about1-1.jpg"
+                alt="Office Discussion"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="relative aspect-[4/3] w-full rounded-2xl shadow-sm hover:shadow-xl transition-shadow overflow-hidden group">
+              <Image
+                src="/images/team3.jpg"
+                alt="Development Sync"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="relative aspect-[4/3] w-full rounded-2xl shadow-sm hover:shadow-xl transition-shadow overflow-hidden group">
+              <Image
+                src="/images/team7.jpg"
+                alt="Leadership"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="relative aspect-[4/3] w-full rounded-2xl shadow-sm hover:shadow-xl transition-shadow overflow-hidden group">
+              <Image
+                src="/images/Account-Based-Sales-Marketing.jpg"
+                alt="Marketing Event"
+                fill
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-500"
+              />
+            </div>
+            <div className="relative aspect-[4/3] w-full rounded-2xl shadow-sm hover:shadow-xl transition-shadow overflow-hidden group flex items-center justify-center bg-gray-50 border border-dashed border-gray-300">
+              <div className="text-center p-6">
+                <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                <p className="mt-2 text-sm font-medium text-gray-900">More updates coming soon</p>
+              </div>
             </div>
           </div>
         </div>

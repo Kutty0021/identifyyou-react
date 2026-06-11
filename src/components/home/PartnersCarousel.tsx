@@ -1,10 +1,10 @@
 import Image from "next/image";
 
 const partners = [
-  { name: "Microsoft", url: "https://identifyyou.in/wp-content/uploads/2025/02/mslogo.webp" },
-  { name: "Snowflake", url: "https://identifyyou.in/wp-content/uploads/2025/02/headerLogoLight-1.webp" },
-  { name: "Monday.com", url: "https://identifyyou.in/wp-content/uploads/2025/02/monday-logo-x2.webp" },
-  { name: "Zendesk", url: "https://identifyyou.in/wp-content/uploads/2025/02/Zendesk-Logo.webp" }
+  { name: "Microsoft", url: "/images/mslogo.webp" },
+  { name: "Snowflake", url: "/images/headerLogoLight-1.webp" },
+  { name: "Monday.com", url: "/images/monday-logo-x2.webp" },
+  { name: "Zendesk", url: "/images/Zendesk-Logo.webp" }
 ];
 
 export default function PartnersCarousel() {

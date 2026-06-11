@@ -1,36 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
+import data from "@/data/api_data.json";
 
 export default function BlogList() {
-  const posts = [
-    {
-      id: 1,
-      title: "The Future of Edge Computing in Industrial Automation",
-      category: "Edge Computing",
-      date: "October 12, 2026",
-      excerpt: "Explore how industrial edge gateways are transforming thermal sensing and preventing costly downtime in manufacturing.",
-      image: "https://identifyyou.in/wp-content/uploads/2026/04/T40-Edge-Computing-Image.jpg",
-      link: "/blogs-news"
-    },
-    {
-      id: 2,
-      title: "Streamlining Freshdesk Workflows with Custom CRM Integrations",
-      category: "CRM",
-      date: "September 28, 2026",
-      excerpt: "Learn how we built a dynamic merge algorithm to automatically handle duplicate tickets in Freshdesk.",
-      image: "https://identifyyou.in/wp-content/uploads/2023/04/Automerger_centered_550x550.png",
-      link: "/blogs-news"
-    },
-    {
-      id: 3,
-      title: "Maximizing Multi-Vendor RFQs in MS D365 Business Central",
-      category: "ERP",
-      date: "August 15, 2026",
-      excerpt: "A deep dive into optimizing purchase quotations and vendor management using tailored ERP extensions.",
-      image: "https://identifyyou.in/wp-content/uploads/2023/10/multivendor_rfq_logo.png",
-      link: "/blogs-news"
-    }
-  ];
+  // Filter for blogs/news
+  const posts = data
+    .filter(item => item.slug.startsWith("/category/") || item.slug.includes("blog") || item.slug.includes("news"))
+    .slice(0, 6)
+    .map((post, idx) => {
+      const category = post.slug.split('/')[2] || "News";
+      const imageFile = post.images && post.images.length > 0 
+        ? post.images[0] 
+        : "/images/placeholder.jpg";
+      
+      return {
+        id: idx,
+        title: post.title,
+        category: category.toUpperCase(),
+        date: "Recent",
+        excerpt: post.paragraphs && post.paragraphs.length > 0 ? post.paragraphs[0].substring(0, 150) + "..." : "",
+        image: imageFile,
+        link: post.slug
+      };
+    });
 
   return (
     <section className="py-20 bg-gray-50">

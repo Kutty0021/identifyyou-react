@@ -18,7 +18,7 @@ export default function Home() {
             <div className="w-full lg:w-1/2">
               <div className="relative aspect-[4/3] w-full rounded-2xl shadow-2xl shadow-blue-900/10 overflow-hidden border-4 border-white">
                 <Image
-                  src="https://identifyyou.in/wp-content/uploads/2026/04/T40-Edge-Computing-Image.jpg"
+                  src="/images/T40-Edge-Computing-Image.jpg"
                   alt="Precision ABM"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"

@@ -7,7 +7,7 @@ export default function Hero() {
       {/* Background Image exactly like Elementor */}
       <div className="absolute inset-0 z-0">
         <Image 
-          src="https://identifyyou.in/wp-content/uploads/elementor/thumbs/ML_AI-r1qm3banb548yu9eimxak9jp5emw0pfemw1q6f4aj4.png"
+          src="/images/ML_AI-r1qm3banb548yu9eimxak9jp5emw0pfemw1q6f4aj4.png"
           alt="AI Data Cloud Hero Background"
           fill
           priority

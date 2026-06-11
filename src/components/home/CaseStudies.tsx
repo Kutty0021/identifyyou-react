@@ -1,28 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const caseStudies = [
-  {
-    title: "AI Data Cloud - Snowflake",
-    category: "Data Engineering",
-    imageUrl: "https://identifyyou.in/wp-content/uploads/2026/04/Account-Based-Sales-Marketing.jpg",
-    link: "/snowflake-case-studies"
-  },
-  {
-    title: "Edge Computing Integration",
-    category: "IoT & Edge",
-    imageUrl: "https://identifyyou.in/wp-content/uploads/2026/04/T40-Edge-Computing-Image.jpg",
-    link: "/edge-computing"
-  },
-  {
-    title: "Smart Mobility Analytics",
-    category: "Smart Systems",
-    imageUrl: "https://identifyyou.in/wp-content/uploads/2026/05/ipatt_Scan_system.jpg",
-    link: "/smart-mobility"
-  }
-];
+import data from "@/data/api_data.json";
 
 export default function CaseStudies() {
+  const caseStudies = data
+    .filter(item => item.slug.includes("projects") || item.slug.includes("case-studies"))
+    .slice(0, 3)
+    .map(post => {
+      const imageFile = post.images && post.images.length > 0 
+        ? post.images[0] 
+        : "/images/placeholder.jpg";
+      
+      return {
+        title: post.title.split(' –')[0],
+        category: "Case Study",
+        imageUrl: imageFile,
+        link: post.slug
+      };
+    });
   return (
     <section className="py-20 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

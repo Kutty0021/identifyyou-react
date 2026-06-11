@@ -96,6 +96,7 @@ export default function Header() {
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-gray-500 hover:text-gray-700 focus:outline-none"
+              aria-label="Toggle mobile menu"
             >
               <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {isMobileMenuOpen ? (

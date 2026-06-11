@@ -5,49 +5,49 @@ const services = [
   {
     title: "AI Data Cloud - Snowflake",
     description: "Accelerate your data initiatives with Snowflake's AI Data Cloud.",
-    iconUrl: "https://identifyyou.in/wp-content/uploads/2025/02/snow.png",
+    iconUrl: "/images/snow.png",
     link: "/snowflake-case-studies"
   },
   {
     title: "Data Analytics - MS Power BI",
     description: "Transform raw data into actionable insights.",
-    iconUrl: "https://identifyyou.in/wp-content/uploads/2025/02/powerapps-icon.png",
+    iconUrl: "/images/powerapps-icon.png",
     link: "/power-bi-case-studies"
   },
   {
     title: "Tailored Enterprise Solutions",
     description: "Custom solutions for complex business challenges.",
-    iconUrl: "https://identifyyou.in/wp-content/uploads/2025/04/Cloud-Data-Migration.png",
+    iconUrl: "/images/Cloud-Data-Migration.png",
     link: "/tailored-enterprise-solutions"
   },
   {
     title: "Edge Computing",
     description: "Bring compute power closer to data sources.",
-    iconUrl: "https://identifyyou.in/wp-content/uploads/2026/04/T40-Edge-Computing-Image.jpg",
+    iconUrl: "/images/T40-Edge-Computing-Image.jpg",
     link: "/edge-computing"
   },
   {
     title: "CRM Solutions",
     description: "Build stronger relationships with integrated CRM.",
-    iconUrl: "https://identifyyou.in/wp-content/uploads/2025/02/CR.png",
+    iconUrl: "/images/CR.png",
     link: "/crm-solutions"
   },
   {
     title: "ERP - MS D365",
     description: "Streamline operations with Business Central.",
-    iconUrl: "https://identifyyou.in/wp-content/uploads/2025/02/pinpng.com-microsoft-dynamics-logo-png-3444175-1.png",
+    iconUrl: "/images/pinpng.com-microsoft-dynamics-logo-png-3444175-1.png",
     link: "/erp-solutions"
   },
   {
     title: "Smart Mobility",
     description: "Advanced IoT and connected systems.",
-    iconUrl: "https://identifyyou.in/wp-content/uploads/2026/05/ipatt_Scan_system.jpg",
+    iconUrl: "/images/ipatt_Scan_system.jpg",
     link: "/smart-mobility"
   },
   {
     title: "DevOps & Cloud",
     description: "Continuous integration and deployment pipelines.",
-    iconUrl: "https://identifyyou.in/wp-content/uploads/2023/04/DevOps-Infinity-Symbol-Design.png",
+    iconUrl: "/images/DevOps-Infinity-Symbol-Design.png",
     link: "/services"
   }
 ];

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const metadata = {
   title: "Edge Computing | Identifyyou",
@@ -24,14 +25,23 @@ export default function Page() {
       {/* Main Content */}
       <section className="py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Overview</h2>
-              <div className="prose prose-lg text-gray-600">
-                <p className="mb-6 leading-relaxed">In high-stakes industrial environments, a slight temperature deviation can mean the difference between seamless production and costly equipment failure. Our Industrial Edge Gateway, purpose-built for the Fluke Thermalert T40 Pyrometer, processes data locally for immediate response.</p>
-                <p className="mb-6 leading-relaxed">Move beyond static thresholds with an engine that analyzes real-time thermal patterns and subtle deviations. By identifying irregularities that simple alarms miss, the system flags potential issues in their early stages, allowing your team to intervene before they escalate into critical failures or costly downtime.</p>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+              <div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-6">Overview</h2>
+                <div className="prose prose-lg text-gray-600 mb-8">
+                  <p className="mb-6 leading-relaxed">In high-stakes industrial environments, a slight temperature deviation can mean the difference between seamless production and costly equipment failure. Our Industrial Edge Gateway, purpose-built for the Fluke Thermalert T40 Pyrometer, processes data locally for immediate response.</p>
+                  <p className="mb-6 leading-relaxed">Move beyond static thresholds with an engine that analyzes real-time thermal patterns and subtle deviations. By identifying irregularities that simple alarms miss, the system flags potential issues in their early stages, allowing your team to intervene before they escalate into critical failures or costly downtime.</p>
+                </div>
+                <div className="relative w-full aspect-video rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+                  <Image
+                    src="/images/T40-Edge-Computing-Image.jpg"
+                    alt="Industrial Edge Gateway for Fluke Thermalert T40"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover"
+                  />
+                </div>
               </div>
-            </div>
             
             <div className="bg-gray-50 rounded-2xl p-8 lg:p-12 border border-gray-100 shadow-sm">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Key Capabilities</h3>

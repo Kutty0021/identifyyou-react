@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const metadata = {
   title: "Snowflake Case Studies | Identifyyou",
@@ -24,14 +25,23 @@ export default function Page() {
       {/* Main Content */}
       <section className="py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-            <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Overview</h2>
-              <div className="prose prose-lg text-gray-600">
-                <p className="mb-6 leading-relaxed">In today's data-driven landscape, migrating to a modern cloud data platform is just the first step. Our Snowflake implementations focus on delivering measurable business value through optimized architectures, secure data sharing, and advanced analytics.</p>
-                <p className="mb-6 leading-relaxed">We have successfully partnered with organizations across finance, healthcare, and retail to consolidate siloed data, reduce operational overhead, and empower teams with real-time insights powered by Snowflake Cortex AI.</p>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+              <div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-6">Overview</h2>
+                <div className="prose prose-lg text-gray-600 mb-8">
+                  <p className="mb-6 leading-relaxed">In today&apos;s data-driven landscape, migrating to a modern cloud data platform is just the first step. Our Snowflake implementations focus on delivering measurable business value through optimized architectures, secure data sharing, and advanced analytics.</p>
+                  <p className="mb-6 leading-relaxed">We have successfully partnered with organizations across finance, healthcare, and retail to consolidate siloed data, reduce operational overhead, and empower teams with real-time insights powered by Snowflake Cortex AI.</p>
+                </div>
+                <div className="relative w-full aspect-video rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+                  <Image
+                    src="/images/headerLogoLight-1.webp"
+                    alt="Snowflake Data Cloud"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-contain p-4 bg-gray-50"
+                  />
+                </div>
               </div>
-            </div>
             
             <div className="bg-gray-50 rounded-2xl p-8 lg:p-12 border border-gray-100 shadow-sm">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Key Capabilities</h3>

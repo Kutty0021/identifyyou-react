@@ -36,14 +36,43 @@ export default function About() {
                 </div>
               </div>
             </div>
-            <div className="relative aspect-square lg:aspect-[4/3] w-full rounded-2xl shadow-2xl overflow-hidden">
-              <Image
-                src="https://identifyyou.in/wp-content/uploads/2026/04/T40-Edge-Computing-Image.jpg"
-                alt="Our Team"
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                className="object-cover"
-              />
+            <div className="grid grid-cols-2 gap-4">
+              <div className="relative aspect-square w-full rounded-2xl shadow-lg overflow-hidden mt-8">
+                <Image
+                  src="/images/team2.jpg"
+                  alt="Team collaboration"
+                  fill
+                  sizes="(max-width: 1024px) 50vw, 25vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="relative aspect-square w-full rounded-2xl shadow-lg overflow-hidden">
+                <Image
+                  src="/images/h3-about1-1.jpg"
+                  alt="Office discussion"
+                  fill
+                  sizes="(max-width: 1024px) 50vw, 25vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="relative aspect-square w-full rounded-2xl shadow-lg overflow-hidden mt-4">
+                <Image
+                  src="/images/team3.jpg"
+                  alt="Development team"
+                  fill
+                  sizes="(max-width: 1024px) 50vw, 25vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="relative aspect-square w-full rounded-2xl shadow-lg overflow-hidden -mt-4">
+                <Image
+                  src="/images/team7.jpg"
+                  alt="Leadership team"
+                  fill
+                  sizes="(max-width: 1024px) 50vw, 25vw"
+                  className="object-cover"
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -26,39 +26,48 @@ export default function Page() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
             <div>
-              <h2 className="text-3xl font-bold text-gray-900 mb-6">Overview</h2>
+              <h2 className="text-3xl font-bold text-gray-900 mb-6">Enterprise Digital Solutions</h2>
               <div className="prose prose-lg text-gray-600">
-                <p className="mb-6 leading-relaxed">Identifyyou provides end-to-end technology solutions that bridge the gap between business strategy and technical execution. We don't just write code; we solve fundamental business problems.</p>
-                <p className="mb-6 leading-relaxed">From intelligent data platforms to scalable cloud architectures, our solutions are built on a foundation of reliability, security, and exceptional user experience.</p>
+                <p className="mb-6 leading-relaxed">We deliver tailored digital engineering and enterprise solutions that drive operational efficiency and business growth. Our expertise covers full-stack development using modern web technologies like ReactJS, NodeJS, and Python.</p>
+                <p className="mb-6 leading-relaxed">Whether you need custom automation workflows, rapid application development using Microsoft PowerApps, or robust data integrations, IdentifYou acts as your strategic partner to accelerate your digital transformation.</p>
               </div>
             </div>
             
             <div className="bg-gray-50 rounded-2xl p-8 lg:p-12 border border-gray-100 shadow-sm">
-              <h3 className="text-2xl font-bold text-gray-900 mb-6">Key Capabilities</h3>
-              <ul className="space-y-4">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Key Enterprise Solutions</h3>
+              <ul className="space-y-6">
                 <li className="flex items-start">
-                  <svg className="w-6 h-6 text-primary mt-1 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700 font-medium">Cloud Infrastructure & DevOps</span>
+                  <div className="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center shrink-0 mr-4">
+                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                    </svg>
+                  </div>
+                  <div>
+                    <span className="block text-gray-900 font-bold mb-1">Custom Digital Engineering</span>
+                    <span className="text-gray-600 text-sm">Python, NodeJS, and ReactJS expertise.</span>
+                  </div>
                 </li>
                 <li className="flex items-start">
-                  <svg className="w-6 h-6 text-primary mt-1 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700 font-medium">Data Engineering & AI/ML</span>
+                  <div className="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center shrink-0 mr-4">
+                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <span className="block text-gray-900 font-bold mb-1">Microsoft PowerApps</span>
+                    <span className="text-gray-600 text-sm">Low-code rapid application development.</span>
+                  </div>
                 </li>
                 <li className="flex items-start">
-                  <svg className="w-6 h-6 text-primary mt-1 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700 font-medium">Enterprise Application Development</span>
-                </li>
-                <li className="flex items-start">
-                  <svg className="w-6 h-6 text-primary mt-1 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                  <span className="text-gray-700 font-medium">Digital Workspace & Mobility</span>
+                  <div className="w-12 h-12 bg-blue-100 text-blue-700 rounded-lg flex items-center justify-center shrink-0 mr-4">
+                    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <span className="block text-gray-900 font-bold mb-1">CRM & ERP Implementation</span>
+                    <span className="text-gray-600 text-sm">End-to-end integration and customization.</span>
+                  </div>
                 </li>
               </ul>
             </div>
