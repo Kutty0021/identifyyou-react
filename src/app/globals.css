@@ -1,22 +1,30 @@
 @import "tailwindcss";
 
 @theme {
-  --font-inter: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --font-cardo: var(--font-cardo), ui-serif, Georgia, serif;
-  --font-manrope: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
-  --font-dm-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-cardo), ui-serif, Georgia, serif;
   
-  --color-primary: #9ACD32; /* YellowGreen button color */
-  --color-primary-hover: #86b32b; /* Darker yellow green for hover */
-  --color-secondary: #222222; /* Dark background */
+  --color-primary: #9ACD32; /* YellowGreen */
+  --color-primary-hover: #86b32b;
+  --color-secondary: #222222;
+  
+  /* Dark themes */
   --color-dark: #121212;
   --color-darker: #0f0f0f;
-  --color-accent: #f58634; /* Orange accent */
+  --color-dark-card: #1a1a1a;
+  
+  /* Layout utilities */
+  --spacing-section: 6rem;
 }
 
 @layer base {
-  html, body {
-    @apply h-full antialiased text-gray-800 bg-white;
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply h-full antialiased bg-[#1a1a1a] text-gray-300 font-sans;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-bold text-white tracking-tight;
   }
 }
-

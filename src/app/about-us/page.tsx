@@ -7,10 +7,10 @@ export const metadata = {
 
 export default function AboutUsPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-50">
+    <div className="flex flex-col min-h-screen bg-[#1a1a1a]">
       {/* Page Header */}
-      <div className="bg-primary py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="bg-[#121212] py-20 border-b border-[#333]">
+        <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-4xl md:text-5xl font-bold text-white text-center">About Us</h1>
         </div>
       </div>

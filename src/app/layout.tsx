@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Cardo, Manrope, DM_Sans } from "next/font/google";
+import { Inter, Cardo } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import "./globals.css";
@@ -12,16 +12,6 @@ const inter = Inter({
 const cardo = Cardo({
   variable: "--font-cardo",
   weight: ["400", "700"],
-  subsets: ["latin"],
-});
-
-const manrope = Manrope({
-  variable: "--font-manrope",
-  subsets: ["latin"],
-});
-
-const dmSans = DM_Sans({
-  variable: "--font-dm-sans",
   subsets: ["latin"],
 });
 
@@ -54,10 +44,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${cardo.variable} ${manrope.variable} ${dmSans.variable} font-sans antialiased min-h-full flex flex-col overflow-x-hidden`}
+        className={`${inter.variable} ${cardo.variable} font-sans antialiased min-h-full flex flex-col overflow-x-hidden`}
       >
         <Header />
-        <main className="flex-grow pt-20">
+        <main className="flex-grow pt-[90px]">
           {children}
         </main>
         <Footer />

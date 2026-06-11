@@ -24,19 +24,19 @@ export default function OurSolutions() {
   ];
 
   return (
-    <section className="py-20 bg-[#121212]">
+    <section className="py-24 bg-[#121212]">
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Our Solutions</h2>
+          <h2 className="text-[40px] md:text-[50px] font-extrabold text-white mb-6 tracking-tight">Our Solutions</h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {solutions.map((solution, index) => (
             <div 
               key={index} 
-              className="group flex flex-col items-center text-center bg-[#1a1a1a] p-8 border border-[#333] hover:border-gray-600 transition-colors duration-300"
+              className="group flex flex-col items-center text-center bg-[#1a1a1a] p-10 border border-[#333] hover:border-primary transition-colors duration-300 shadow-md"
             >
-              <div className="w-32 h-32 mb-8 bg-white rounded-full p-4 flex items-center justify-center shrink-0">
+              <div className="w-32 h-32 mb-8 bg-white border-2 border-white rounded-full p-4 flex items-center justify-center shrink-0 shadow-lg group-hover:scale-105 transition-transform duration-300">
                 <Image 
                   src={solution.imageUrl} 
                   alt={solution.title} 
@@ -45,14 +45,14 @@ export default function OurSolutions() {
                   className="object-contain max-h-full max-w-full"
                 />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-4 leading-tight">{solution.title}</h3>
-              <p className="text-gray-400 text-base leading-relaxed mb-8 flex-grow">
+              <h3 className="text-[24px] font-bold text-white mb-4 leading-tight">{solution.title}</h3>
+              <p className="text-gray-400 text-[16px] leading-relaxed mb-8 flex-grow">
                 {solution.description}
               </p>
               
               <Link
                 href={solution.link}
-                className="inline-block bg-primary text-white font-bold px-8 py-3 text-sm tracking-wider uppercase hover:bg-[#86b32b] transition-colors"
+                className="inline-block border-2 border-primary text-white font-bold px-8 py-3 text-[14px] tracking-wider uppercase hover:bg-primary transition-colors mt-auto"
               >
                 VIEW DETAILS
               </Link>
