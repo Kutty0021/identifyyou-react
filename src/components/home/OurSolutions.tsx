@@ -32,9 +32,10 @@ export default function OurSolutions() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {solutions.map((solution, index) => (
-            <div 
+            <Link 
               key={index} 
-              className="group flex flex-col items-center text-center bg-[#1a1a1a] p-10 border border-[#333] hover:border-primary transition-colors duration-300 shadow-md"
+              href={solution.link}
+              className="group flex flex-col items-center text-center bg-[#1a1a1a] p-10 border border-[#333] hover:border-primary transition-colors duration-300 shadow-md cursor-pointer"
             >
               <div className="w-32 h-32 mb-8 bg-white border-2 border-white rounded-full p-4 flex items-center justify-center shrink-0 shadow-lg group-hover:scale-105 transition-transform duration-300">
                 <Image 
@@ -50,13 +51,12 @@ export default function OurSolutions() {
                 {solution.description}
               </p>
               
-              <Link
-                href={solution.link}
-                className="inline-block border-2 border-primary text-white font-bold px-8 py-3 text-[14px] tracking-wider uppercase hover:bg-primary transition-colors mt-auto"
+              <span
+                className="inline-block border-2 border-primary text-white font-bold px-8 py-3 text-[14px] tracking-wider uppercase group-hover:bg-primary transition-colors mt-auto"
               >
                 VIEW DETAILS
-              </Link>
-            </div>
+              </span>
+            </Link>
           ))}
         </div>
       </div>

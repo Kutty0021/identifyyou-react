@@ -32,9 +32,10 @@ export default function CaseStudies() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {caseStudies.map((study, index) => (
-            <div 
+            <Link 
               key={index} 
-              className="group flex flex-col bg-[#121212] overflow-hidden border border-[#333] hover:border-primary transition-colors duration-300 shadow-lg"
+              href={study.link}
+              className="group flex flex-col bg-[#121212] overflow-hidden border border-[#333] hover:border-primary transition-colors duration-300 shadow-lg cursor-pointer"
             >
               {/* Image Section */}
               <div className="relative h-[250px] w-full overflow-hidden bg-white flex items-center justify-center p-4">
@@ -56,18 +57,17 @@ export default function CaseStudies() {
                 </p>
                 
                 <div className="mt-auto pt-4 border-t border-[#333]">
-                  <Link
-                    href={study.link}
-                    className="inline-block text-primary font-bold text-[14px] uppercase tracking-[1px] hover:text-white transition-colors flex items-center group/link"
+                  <span
+                    className="inline-flex text-primary font-bold text-[14px] uppercase tracking-[1px] group-hover:text-white transition-colors items-center group/link"
                   >
                     CASE STUDIES
                     <svg className="w-4 h-4 ml-2 transform group-hover/link:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
-                  </Link>
+                  </span>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

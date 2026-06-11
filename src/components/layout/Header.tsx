@@ -115,7 +115,6 @@ export default function Header() {
             <Link
               key={link.name}
               href={link.href}
-              onClick={() => setIsMobileMenuOpen(false)}
               className="block px-4 py-3.5 text-base font-medium text-gray-300 hover:text-white hover:bg-[#2a2a2a] rounded-md transition-colors border-b border-[#333] active:bg-[#333]"
             >
               {link.name}
@@ -124,7 +123,6 @@ export default function Header() {
           <div className="pt-8 pb-4">
             <Link
               href="/contact-us"
-              onClick={() => setIsMobileMenuOpen(false)}
               className="block w-full px-4 py-4 text-base font-bold text-white bg-primary rounded-md text-center uppercase tracking-wider hover:bg-[#86b32b] transition-colors active:scale-95"
             >
               Contact Us

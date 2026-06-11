@@ -47,7 +47,7 @@ export default function RootLayout({
         className={`${inter.variable} ${cardo.variable} font-sans antialiased min-h-full flex flex-col overflow-x-hidden`}
       >
         <Header />
-        <main className="flex-grow pt-[90px]">
+        <main className="flex-grow pt-[80px]">
           {children}
         </main>
         <Footer />
