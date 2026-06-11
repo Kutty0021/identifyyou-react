@@ -1,37 +1,96 @@
-import React from 'react';
-import data from '@/data/api_pipeline_data.json';
-import { notFound } from 'next/navigation';
+import Link from 'next/link';
+import Image from 'next/image';
 
-export function generateMetadata() {
-  const pageData = data.find(p => p.slug === 'snowflake-case-studies');
-  if (!pageData) return { title: 'Not Found' };
-  return {
-    title: `${pageData.title} | Identifyyou`,
-  };
-}
+export const metadata = {
+  title: "Snowflake Case Studies | Identifyyou",
+  description: "Comprehensive Snowflake Case Studies driving digital transformation and operational excellence.",
+};
 
-export default function SnowflakeCaseStudiesPage() {
-  const pageData = data.find(p => p.slug === 'snowflake-case-studies');
-
-  if (!pageData) {
-    notFound();
-  }
-
-  // We render the raw Elementor HTML to perfectly preserve the original site's complex layout,
-  // since this page contains specialized widgets that cannot be easily mapped to standard Tailwind placeholders.
+export default function Page() {
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      {/* Page Header */}
-      <div className="bg-primary py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-white text-center">{pageData.title}</h1>
+      {/* Hero Section */}
+      <section className="bg-primary py-24 relative overflow-hidden">
+        <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white via-transparent to-transparent"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center max-w-3xl mx-auto">
+            <h1 className="text-4xl md:text-5xl font-bold text-white mb-6 tracking-tight">Snowflake Case Studies</h1>
+            <p className="text-xl text-blue-100 leading-relaxed">
+              Discover how we help enterprises harness the full potential of the Snowflake AI Data Cloud for unparalleled analytics and agility.
+            </p>
+          </div>
         </div>
-      </div>
-      
-      <div 
-        className="wp-content-container"
-        dangerouslySetInnerHTML={{ __html: pageData.content }}
-      />
+      </section>
+
+      {/* Main Content */}
+      <section className="py-20 lg:py-32">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+              <div>
+                <h2 className="text-3xl font-bold text-gray-900 mb-6">Overview</h2>
+                <div className="prose prose-lg text-gray-600 mb-8">
+                  <p className="mb-6 leading-relaxed">In today&apos;s data-driven landscape, migrating to a modern cloud data platform is just the first step. Our Snowflake implementations focus on delivering measurable business value through optimized architectures, secure data sharing, and advanced analytics.</p>
+                  <p className="mb-6 leading-relaxed">We have successfully partnered with organizations across finance, healthcare, and retail to consolidate siloed data, reduce operational overhead, and empower teams with real-time insights powered by Snowflake Cortex AI.</p>
+                </div>
+                <div className="relative w-full aspect-video rounded-2xl shadow-lg overflow-hidden border border-gray-100">
+                  <Image
+                    src="/images/headerLogoLight-1.webp"
+                    alt="Snowflake Data Cloud"
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-contain p-4 bg-gray-50"
+                  />
+                </div>
+              </div>
+            
+            <div className="bg-gray-50 rounded-2xl p-8 lg:p-12 border border-gray-100 shadow-sm">
+              <h3 className="text-2xl font-bold text-gray-900 mb-6">Key Capabilities</h3>
+              <ul className="space-y-4">
+                <li className="flex items-start">
+                  <svg className="w-6 h-6 text-primary mt-1 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-gray-700 font-medium">Zero-Copy Cloning and Data Sharing optimizations</span>
+                </li>
+                <li className="flex items-start">
+                  <svg className="w-6 h-6 text-primary mt-1 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-gray-700 font-medium">Integration of Snowflake Cortex AI for predictive modeling</span>
+                </li>
+                <li className="flex items-start">
+                  <svg className="w-6 h-6 text-primary mt-1 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-gray-700 font-medium">Automated data pipelines and DBT integrations</span>
+                </li>
+                <li className="flex items-start">
+                  <svg className="w-6 h-6 text-primary mt-1 mr-3 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span className="text-gray-700 font-medium">Performance tuning and compute cost optimization</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* CTA */}
+      <section className="py-20 bg-gray-50 border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">Ready to Accelerate Your Data Cloud Journey?</h2>
+          <p className="text-lg text-gray-600 mb-10 max-w-2xl mx-auto">
+            Partner with Identifyyou to leverage cutting-edge technology and domain expertise for your enterprise.
+          </p>
+          <Link
+            href="/contact-us"
+            className="inline-block bg-primary text-white font-bold px-8 py-4 rounded-lg hover:bg-blue-700 transition-colors shadow-lg hover:shadow-xl"
+          >
+            Consult Our Experts
+          </Link>
+        </div>
+      </section>
     </div>
   );
 }
