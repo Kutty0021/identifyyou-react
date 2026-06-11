@@ -53,7 +53,7 @@ export default function Header() {
           <div className="hidden xl:flex items-center">
             <Link
               href="/contact-us"
-              className="bg-primary text-white px-8 py-3 rounded-[3px] font-bold text-[13px] tracking-[1px] uppercase hover:bg-[#7ab033] transition-colors"
+              className="bg-primary text-white px-8 py-3 rounded-[3px] font-bold text-[13px] tracking-[1px] uppercase hover:bg-[#86b32b] transition-colors"
             >
               CONTACT US
             </Link>

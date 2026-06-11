@@ -1,0 +1,65 @@
+import Image from "next/image";
+import Link from "next/link";
+
+export default function OurSolutions() {
+  const solutions = [
+    {
+      title: "Automerger of Duplicate Tickets in Freshdesk",
+      description: "System dynamically builds merge algorithm based on the configurations.",
+      imageUrl: "/images/Automerger_centered_550x550.png",
+      link: "/solutions"
+    },
+    {
+      title: "Azure DevOps – monday.com Integration",
+      description: "Rapid information exchange helps IT support team and build teams stay aligned.",
+      imageUrl: "/images/DevOps-Infinity-Symbol-Design.png",
+      link: "/solutions"
+    },
+    {
+      title: "Multi Vendor for Purchase Quotation",
+      description: "Purchase Quotation to multiple vendors in MS D365 Business Central",
+      imageUrl: "/images/multivendor_rfq_logo.png",
+      link: "/solutions"
+    }
+  ];
+
+  return (
+    <section className="py-20 bg-[#121212]">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Our Solutions</h2>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {solutions.map((solution, index) => (
+            <div 
+              key={index} 
+              className="group flex flex-col items-center text-center bg-[#1a1a1a] p-8 border border-[#333] hover:border-gray-600 transition-colors duration-300"
+            >
+              <div className="w-32 h-32 mb-8 bg-white rounded-full p-4 flex items-center justify-center shrink-0">
+                <Image 
+                  src={solution.imageUrl} 
+                  alt={solution.title} 
+                  width={100}
+                  height={100}
+                  className="object-contain max-h-full max-w-full"
+                />
+              </div>
+              <h3 className="text-2xl font-bold text-white mb-4 leading-tight">{solution.title}</h3>
+              <p className="text-gray-400 text-base leading-relaxed mb-8 flex-grow">
+                {solution.description}
+              </p>
+              
+              <Link
+                href={solution.link}
+                className="inline-block bg-primary text-white font-bold px-8 py-3 text-sm tracking-wider uppercase hover:bg-[#86b32b] transition-colors"
+              >
+                VIEW DETAILS
+              </Link>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

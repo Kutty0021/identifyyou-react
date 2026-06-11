@@ -55,7 +55,7 @@ export default function CaseStudies() {
               
               <Link
                 href={study.link}
-                className="inline-block bg-primary text-white font-bold px-6 py-3 text-center uppercase tracking-wider text-sm hover:bg-[#7ab033] transition-colors w-full"
+                className="inline-block bg-primary text-white font-bold px-6 py-3 text-center uppercase tracking-wider text-sm hover:bg-[#86b32b] transition-colors w-full"
               >
                 CASE STUDIES
               </Link>

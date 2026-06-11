@@ -3,19 +3,19 @@ import Link from "next/link";
 import data from "@/data/api_pipeline_data.json";
 
 export const metadata = {
-  title: "Edge Computing | Identifyyou",
-  description: "Comprehensive Edge Computing solutions driving digital transformation and operational excellence.",
+  title: "Power App Case Studies | Identifyyou",
+  description: "Comprehensive Power App Case Studies driving digital transformation and operational excellence.",
 };
 
-export default function EdgeComputingPage() {
-  const pageData = data.find(p => p.slug === 'edge-computing');
+export default function PowerAppCaseStudiesPage() {
+  const pageData = data.find(p => p.slug === 'power-app-case-studies');
   const headings = pageData?.sections?.headings || [];
   const images = pageData?.images || [];
 
   const caseStudies = headings.map((heading, index) => ({
     title: heading,
     imageUrl: images[index] || "/images/Cloud-Data-Migration.png",
-    link: "/edge-computing"
+    link: "/power-app-case-studies"
   }));
 
   return (
@@ -23,7 +23,7 @@ export default function EdgeComputingPage() {
       {/* Page Header */}
       <div className="bg-[#121212] py-20 border-b border-[#333]">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl md:text-5xl font-bold text-white text-center mb-4">{pageData?.title || "Edge Computing"}</h1>
+          <h1 className="text-4xl md:text-5xl font-bold text-white text-center mb-4">{pageData?.title || "Power App Case Studies"}</h1>
         </div>
       </div>
       

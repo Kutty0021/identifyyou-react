@@ -6,7 +6,8 @@
   --font-manrope: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-dm-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
   
-  --color-primary: #8CC63F; /* Bright green button color */
+  --color-primary: #9ACD32; /* YellowGreen button color */
+  --color-primary-hover: #86b32b; /* Darker yellow green for hover */
   --color-secondary: #222222; /* Dark background */
   --color-dark: #121212;
   --color-darker: #0f0f0f;

@@ -34,7 +34,7 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
             <Link
               href="/services"
-              className="bg-primary text-white px-8 py-4 rounded font-bold text-sm tracking-wider hover:bg-[#7ab033] transition-colors w-full sm:w-auto text-center uppercase"
+              className="bg-primary text-white px-8 py-4 rounded font-bold text-sm tracking-wider hover:bg-[#86b32b] transition-colors w-full sm:w-auto text-center uppercase"
             >
               Discover More
             </Link>
