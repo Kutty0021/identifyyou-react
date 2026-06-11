@@ -10,26 +10,8 @@ export default function Header() {
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Services", href: "/services" },
-    {
-      name: "Case Study",
-      href: "/case-study",
-      dropdown: [
-        { name: "AI Data Cloud", href: "/snowflake-case-studies" },
-        { name: "Data Analytics", href: "/power-bi-case-studies" },
-        { name: "Tailored Enterprise Solutions", href: "/tailored-enterprise-solutions" },
-        { name: "CRM Case Studies", href: "/crm-case-studies" },
-        { name: "ERP Case Studies", href: "/erp-case-studies" },
-        { name: "Smart Mobility", href: "/smart-mobility" },
-      ],
-    },
-    {
-      name: "Solutions",
-      href: "/solutions",
-      dropdown: [
-        { name: "CRM Solutions", href: "/crm-solutions" },
-        { name: "ERP Solutions", href: "/erp-solutions" },
-      ],
-    },
+    { name: "Case Study", href: "/case-study" },
+    { name: "Solutions", href: "/solutions" },
     { name: "Edge Computing", href: "/edge-computing" },
     { name: "Gallery", href: "/gallery" },
     { name: "Blogs & News", href: "/blogs-news" },
@@ -37,68 +19,54 @@ export default function Header() {
   ];
 
   return (
-    <header className="fixed w-full top-0 z-50 bg-white shadow-sm border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+    <header className="fixed w-full top-0 z-50 bg-white shadow-sm">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-[90px]">
           {/* Logo */}
           <div className="flex-shrink-0 flex items-center">
             <Link href="/">
               <Image
                 src="https://identifyyou.in/wp-content/uploads/2025/01/id_logo-dark.png"
                 alt="Identifyyou Logo"
-                width={160}
-                height={40}
-                className="h-10 w-auto object-contain"
+                width={200}
+                height={50}
+                className="h-12 w-auto object-contain"
                 priority
               />
             </Link>
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex space-x-8">
+          <nav className="hidden xl:flex space-x-6 items-center">
             {navLinks.map((link) => (
-              <div key={link.name} className="relative group">
-                <Link
-                  href={link.href}
-                  className="text-gray-700 hover:text-primary font-medium text-sm transition-colors"
-                >
-                  {link.name}
-                </Link>
-                {link.dropdown && (
-                  <div className="absolute left-0 mt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 bg-white shadow-lg border border-gray-100 rounded-md py-2">
-                    {link.dropdown.map((dropLink) => (
-                      <Link
-                        key={dropLink.name}
-                        href={dropLink.href}
-                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-primary"
-                      >
-                        {dropLink.name}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <Link
+                key={link.name}
+                href={link.href}
+                className="text-[#444444] hover:text-primary font-medium text-[15px] transition-colors"
+              >
+                {link.name}
+              </Link>
             ))}
           </nav>
 
           {/* Contact Button */}
-          <div className="hidden lg:flex items-center">
+          <div className="hidden xl:flex items-center">
             <Link
               href="/contact-us"
-              className="bg-black text-white px-6 py-2.5 rounded hover:bg-gray-800 transition-colors font-medium text-sm"
+              className="bg-primary text-white px-8 py-3 rounded-[3px] font-bold text-[13px] tracking-[1px] uppercase hover:bg-[#7ab033] transition-colors"
             >
-              Contact Us
+              CONTACT US
             </Link>
           </div>
 
           {/* Mobile menu button */}
-          <div className="flex lg:hidden items-center">
+          <div className="flex xl:hidden items-center">
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="text-gray-500 hover:text-gray-700 focus:outline-none"
               aria-label="Toggle mobile menu"
             >
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 {isMobileMenuOpen ? (
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                 ) : (
@@ -112,34 +80,20 @@ export default function Header() {
 
       {/* Mobile Navigation */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden bg-white border-t border-gray-100">
-          <div className="px-2 pt-2 pb-3 space-y-1">
+        <div className="xl:hidden bg-white border-t border-gray-100 shadow-xl absolute w-full">
+          <div className="px-4 py-4 space-y-2">
             {navLinks.map((link) => (
-              <div key={link.name}>
-                <Link
-                  href={link.href}
-                  className="block px-3 py-2 text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md"
-                >
-                  {link.name}
-                </Link>
-                {link.dropdown && (
-                  <div className="pl-4 space-y-1 mt-1">
-                    {link.dropdown.map((dropLink) => (
-                      <Link
-                        key={dropLink.name}
-                        href={dropLink.href}
-                        className="block px-3 py-2 text-sm font-medium text-gray-500 hover:text-primary hover:bg-gray-50 rounded-md"
-                      >
-                        {dropLink.name}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <Link
+                key={link.name}
+                href={link.href}
+                className="block px-3 py-3 text-base font-medium text-gray-700 hover:text-primary hover:bg-gray-50 rounded-md border-b border-gray-50"
+              >
+                {link.name}
+              </Link>
             ))}
             <Link
               href="/contact-us"
-              className="block mt-4 px-3 py-2 text-base font-medium text-white bg-black rounded-md text-center"
+              className="block mt-6 px-3 py-4 text-base font-bold text-white bg-primary rounded-md text-center uppercase tracking-wider"
             >
               Contact Us
             </Link>

@@ -6,8 +6,11 @@
   --font-manrope: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-dm-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
   
-  --color-primary: #004d99; /* Adjust according to actual primary color */
-  --color-secondary: #002244;
+  --color-primary: #8CC63F; /* Bright green button color */
+  --color-secondary: #222222; /* Dark background */
+  --color-dark: #121212;
+  --color-darker: #0f0f0f;
+  --color-accent: #f58634; /* Orange accent */
 }
 
 @layer base {
@@ -15,3 +18,4 @@
     @apply h-full antialiased text-gray-800 bg-white;
   }
 }
+

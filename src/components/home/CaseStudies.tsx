@@ -1,70 +1,66 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import data from "@/data/api_pipeline_data.json";
-
 export default function CaseStudies() {
-  const caseStudies = data
-    .filter(item => item.slug.includes("projects") || item.slug.includes("case-studies"))
-    .slice(0, 3)
-    .map(post => {
-      const imageFile = post.images && post.images.length > 0 
-        ? post.images[0] 
-        : "/images/placeholder.jpg";
-      
-      return {
-        title: post.title.split(' –')[0],
-        category: "Case Study",
-        imageUrl: imageFile,
-        link: post.slug
-      };
-    });
+  const caseStudies = [
+    {
+      title: "AI Data Cloud",
+      description: "Our certified Snowflake and Power BI professionals leverage Cortex AI to deliver intelligent data engineering and visualizations that drive data-driven excellence",
+      imageUrl: "/images/snow.png",
+      link: "/snowflake-case-studies"
+    },
+    {
+      title: "IIOT & Vision AI",
+      description: "Leveraging IIoT and edge computing, we deliver computer/machine vision and image intelligence solutions that transform data assets into intelligent business decisions.",
+      imageUrl: "/images/T40-Edge-Computing-Image.jpg",
+      link: "/smart-mobility"
+    },
+    {
+      title: "Digital Engineering",
+      description: "Our Python, NodeJS, and ReactJS experts deliver tailored digital engineering and enterprise solutions that drive operational efficiency and business growth.",
+      imageUrl: "/images/Software-Product-Engineering.jpg",
+      link: "/solutions"
+    }
+  ];
+
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-[#1a1a1a]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Featured Case Studies</h2>
-          <p className="text-xl text-gray-600">Discover how we've helped leading enterprises transform their operations and achieve unprecedented growth.</p>
+        <div className="text-center mb-16">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Case Studies</h2>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {caseStudies.map((study, index) => (
-            <Link 
+            <div 
               key={index} 
-              href={study.link}
-              className="group block rounded-xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 bg-white"
+              className="group flex flex-col border border-[#333] bg-[#0a0a0a] p-8 hover:border-gray-600 transition-colors duration-300"
             >
-              <div className="relative aspect-[4/3] w-full overflow-hidden">
-                <Image 
-                  src={study.imageUrl} 
-                  alt={study.title} 
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-              </div>
-              <div className="p-6">
-                <div className="text-primary font-semibold text-sm mb-2 uppercase tracking-wider">{study.category}</div>
-                <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">{study.title}</h3>
-                <div className="flex items-center text-gray-600 font-medium text-sm group-hover:text-primary transition-colors">
-                  Read Full Story
-                  <svg className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                  </svg>
+              <div className="flex items-center gap-6 mb-8">
+                <div className="w-20 h-20 bg-white rounded flex items-center justify-center p-2 shrink-0">
+                  <Image 
+                    src={study.imageUrl} 
+                    alt={study.title} 
+                    width={60}
+                    height={60}
+                    className="object-contain max-h-full max-w-full"
+                  />
                 </div>
+                <h3 className="text-2xl font-bold text-white leading-tight">{study.title}</h3>
               </div>
-            </Link>
+              
+              <p className="text-gray-400 text-base leading-relaxed mb-10 flex-grow">
+                {study.description}
+              </p>
+              
+              <Link
+                href={study.link}
+                className="inline-block bg-primary text-white font-bold px-6 py-3 text-center uppercase tracking-wider text-sm hover:bg-[#7ab033] transition-colors w-full"
+              >
+                CASE STUDIES
+              </Link>
+            </div>
           ))}
-        </div>
-
-        <div className="text-center mt-12">
-          <Link 
-            href="/case-study"
-            className="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-white bg-primary hover:bg-blue-700 md:py-4 md:text-lg transition-colors"
-          >
-            View All Case Studies
-          </Link>
         </div>
       </div>
     </section>
