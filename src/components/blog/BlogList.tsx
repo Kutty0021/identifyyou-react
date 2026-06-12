@@ -2,45 +2,53 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
-import scrapedData from "@/data/scraped_data.json";
+import { useState, useEffect } from "react";
+import { getPosts, WPPost } from "@/services/wordpress";
 
 export default function BlogList() {
+  const [posts, setPosts] = useState<WPPost[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 9;
 
-  // List of main pages to exclude from the blog post list
-  const mainPages = [
-    '/', '/aboutus', '/about-us', '/iiot-vision-ai', '/edge-computing', '/solutions', 
-    '/gallery', '/tailored-enterprise-solutions', '/power-bi-case-studies', '/ai-chatbot', 
-    '/ml-ai', '/smart-mobility', '/snowflake-case-studies', '/power-app-case-studies', 
-    '/crm-case-studies', '/erp-case-studies', '/case-study', '/erp-solutions', 
-    '/crm-solutions', '/services', '/contact-us', '/blogs-news', '/privacy-policy', 
-    '/terms-of-service', '/privacy-policy-2', '/my-account-2', '/my-account-3', 
-    '/faqs', '/team-grid', '/testimonials', '/testimonial-request-form', '/for-clients', 
-    '/terms-and-conditions'
-  ];
+  // Dynamic fetch of posts on mount
+  useEffect(() => {
+    async function loadPosts() {
+      try {
+        setIsLoading(true);
+        const data = await getPosts({ perPage: 100 });
+        setPosts(data);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching blog posts:', err);
+        setError('Failed to load insights. Please try again later.');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadPosts();
+  }, []);
 
-  // Filter for actual blog posts
-  const allPosts = scrapedData
-    .filter(item => !mainPages.includes(item.slug) && item.paragraphs && item.paragraphs.length > 0)
-    .map((post, idx) => {
-      const imageFile = post.images && post.images.length > 0 
-        ? post.images[0] 
-        : "/images/Cloud-Data-Migration.png";
-      const cleanTitle = post.title.replace(' – identifyyou.in', '').trim();
-      const excerpt = post.paragraphs[0] ? post.paragraphs[0].substring(0, 140) + "..." : "";
-      
-      return {
-        id: idx,
-        title: cleanTitle,
-        category: "INSIGHTS",
-        date: "Recent",
-        excerpt: excerpt,
-        image: imageFile,
-        link: post.slug
-      };
-    });
+  // Map to visual structure
+  const allPosts = posts.map((post, idx) => {
+    const imageFile = (post.acf?.featured_image_url as string) || "/images/Cloud-Data-Migration.png";
+    const cleanTitle = post.title?.rendered || "";
+    const rawExcerpt = post.excerpt?.rendered || post.content?.rendered || "";
+    const cleanExcerpt = rawExcerpt.replace(/<[^>]*>/g, '').substring(0, 140) + "...";
+    
+    return {
+      id: post.id || idx,
+      title: cleanTitle,
+      category: "INSIGHTS",
+      date: post.date && post.date !== "Recent" 
+        ? new Date(post.date).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })
+        : "Recent",
+      excerpt: cleanExcerpt,
+      image: imageFile,
+      link: post.slug.startsWith('/') ? post.slug : `/${post.slug}`
+    };
+  });
 
   // Pagination calculations
   const totalPosts = allPosts.length;
@@ -59,7 +67,7 @@ export default function BlogList() {
   const pageNumbers = [];
   const maxPageButtons = 5;
   let startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
-  let endPage = Math.min(totalPages, startPage + maxPageButtons - 1);
+  const endPage = Math.min(totalPages, startPage + maxPageButtons - 1);
 
   if (endPage - startPage + 1 < maxPageButtons) {
     startPage = Math.max(1, endPage - maxPageButtons + 1);
@@ -80,7 +88,22 @@ export default function BlogList() {
           </p>
         </div>
 
-        {currentPosts.length > 0 ? (
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {Array.from({ length: 6 }).map((_, idx) => (
+              <div 
+                key={idx} 
+                className="bg-zinc-900 border border-zinc-800 rounded-none overflow-hidden h-[400px] animate-pulse"
+              />
+            ))}
+          </div>
+        ) : error ? (
+          <div className="text-center py-10">
+            <div className="bg-red-950 border border-red-800 text-red-400 px-4 py-3 rounded-none max-w-md mx-auto">
+              {error}
+            </div>
+          </div>
+        ) : currentPosts.length > 0 ? (
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {currentPosts.map((post) => (

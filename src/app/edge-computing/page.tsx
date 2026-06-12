@@ -1,4 +1,4 @@
-import { getPageDataBySlug } from '@/utils/dataFetcher';
+import { getEdgeProjects, WPEdgeProject } from '@/services/wordpress';
 import Image from 'next/image';
 import PageHeader from '@/components/layout/PageHeader';
 
@@ -7,53 +7,64 @@ export const metadata = {
   description: "Learn more about Edge Computing and our offerings.",
 };
 
-export default function Page() {
-  const pageData = getPageDataBySlug('edge-computing');
-  const pageTitle = pageData?.title || "Edge Computing";
+export default async function Page() {
+  let projects: WPEdgeProject[] = [];
+  let error = null;
+
+  try {
+    projects = await getEdgeProjects();
+  } catch (err) {
+    console.error("Error loading edge projects:", err);
+    error = "Failed to load edge projects dynamically.";
+  }
+
+  const project = projects[0];
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      <PageHeader title={pageTitle} />
+      <PageHeader title={project?.title || "Edge Computing"} />
       
       <div className="py-20 max-w-[1200px] mx-auto px-5 w-full">
-        {pageData && pageData.images && pageData.images.length > 0 && (
-          <div className="mb-12 w-full relative aspect-[21/9] rounded-none overflow-hidden shadow-md border border-gray-100">
-            <Image
-              src={pageData.images[0]}
-              alt="Edge Computing Feature image"
-              fill
-              sizes="(max-width: 1200px) 100vw, 1200px"
-              className="object-cover"
-            />
-          </div>
-        )}
-
-        {pageData?.content ? (
-          <div 
-            className="prose prose-lg max-w-none text-gray-800 prose-headings:text-secondary prose-p:text-gray-700 prose-a:text-primary prose-strong:text-secondary prose-ul:text-gray-600 prose-li:text-gray-600"
-            dangerouslySetInnerHTML={{ __html: pageData.content }} 
-          />
-        ) : (
-          <div className="text-center text-gray-500 py-10">Content is being updated.</div>
-        )}
-
-        {pageData && pageData.images && pageData.images.length > 1 && (
-          <div className="mt-20">
-            <h3 className="text-3xl font-bold text-secondary mb-10 border-b border-gray-100 pb-4">Gallery Overview</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {pageData.images.slice(1).map((imgUrl, idx) => (
-                <div key={idx} className="relative aspect-square rounded-none overflow-hidden shadow-sm border border-gray-100 group">
-                  <Image
-                    src={imgUrl}
-                    alt={`Gallery image ${idx + 1}`}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
-                </div>
-              ))}
+        {error ? (
+          <div className="text-center py-10">
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-none max-w-md mx-auto">
+              {error}
             </div>
           </div>
+        ) : project ? (
+          <>
+            {project.imageUrl && (
+              <div className="mb-12 w-full relative aspect-[21/9] rounded-none overflow-hidden shadow-md border border-gray-100 bg-gray-50">
+                <Image
+                  src={project.imageUrl}
+                  alt={`${project.title} Feature image`}
+                  fill
+                  sizes="(max-width: 1200px) 100vw, 1200px"
+                  className="object-cover"
+                />
+              </div>
+            )}
+
+            {project.content ? (
+              <div 
+                className="prose prose-lg max-w-none text-gray-800 prose-headings:text-secondary prose-p:text-gray-700 prose-a:text-primary prose-strong:text-secondary prose-ul:text-gray-600 prose-li:text-gray-600"
+                dangerouslySetInnerHTML={{ __html: project.content }} 
+              />
+            ) : (
+              <div className="text-center text-gray-500 py-10">Content is being updated.</div>
+            )}
+            
+            {(project.hardware || project.location || project.status) && (
+              <div className="mt-8 p-6 bg-gray-50 border border-gray-100">
+                <h4 className="text-lg font-bold text-secondary mb-2">Project Specifications</h4>
+                {project.hardware && <p className="text-sm text-gray-600"><strong>Hardware Platform:</strong> {project.hardware}</p>}
+                {project.location && <p className="text-sm text-gray-600 mt-1"><strong>Location:</strong> {project.location}</p>}
+                {project.status && <p className="text-sm text-gray-600 mt-1"><strong>Status:</strong> {project.status}</p>}
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="text-center text-gray-500 py-10">No edge computing projects found.</div>
         )}
       </div>
     </div>

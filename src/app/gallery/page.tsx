@@ -1,16 +1,33 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { getPageDataBySlug } from '@/utils/dataFetcher';
+import { getGalleryImages } from '@/services/wordpress';
 import Image from 'next/image';
 import PageHeader from '@/components/layout/PageHeader';
 
 export default function Page() {
-  const pageData = getPageDataBySlug('gallery');
-  const pageTitle = pageData?.title || "Gallery";
-  const images = pageData?.images || [];
-  
+  const [images, setImages] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
+
+  // Dynamic fetch of gallery content on mount
+  useEffect(() => {
+    async function loadGallery() {
+      try {
+        setIsLoading(true);
+        const fetchedImages = await getGalleryImages();
+        setImages(fetchedImages);
+        setError(null);
+      } catch (err) {
+        console.error('Error fetching gallery images:', err);
+        setError('Failed to fetch gallery images. Please try again later.');
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadGallery();
+  }, []);
 
   // Key bindings for lightbox navigation
   useEffect(() => {
@@ -44,10 +61,25 @@ export default function Page() {
 
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      <PageHeader title={pageTitle} />
+      <PageHeader title="Gallery" />
       
       <div className="py-20 max-w-[1200px] mx-auto px-5 w-full bg-white">
-        {images.length > 0 ? (
+        {isLoading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {Array.from({ length: 8 }).map((_, idx) => (
+              <div 
+                key={idx} 
+                className="relative aspect-square rounded-none overflow-hidden border border-gray-100 bg-gray-100 animate-pulse"
+              />
+            ))}
+          </div>
+        ) : error ? (
+          <div className="text-center py-10">
+            <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-none max-w-md mx-auto">
+              {error}
+            </div>
+          </div>
+        ) : images.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {images.map((imgUrl, idx) => (
               <div 

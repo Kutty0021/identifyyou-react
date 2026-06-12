@@ -1,4 +1,8 @@
+"use client";
+
+import { useState } from "react";
 import data from "@/data/api_pipeline_data.json";
+import { submitContact } from "@/services/wordpress";
 
 export default function Contact() {
   const contactData = data.find(p => p.slug === 'contact-us');
@@ -13,6 +17,52 @@ export default function Contact() {
     .filter(p => p.includes("Survey") || p.includes("Plot") || p.includes("Floor") || p.includes("Madurai") || p.includes("India 625"))
     .join(" ") || "Survey Number : 149/4, Plot Number : B-3 , First Floor, Pandi Kovil Ring Road, Madurai, Tamil Nadu, India 625 107";
 
+  // Form State
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  
+  // Submission Status States
+  const [isPending, setIsPending] = useState(false);
+  const [status, setStatus] = useState<"success" | "error" | null>(null);
+  const [statusText, setStatusText] = useState("");
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!firstName || !email || !message) {
+      setStatus("error");
+      setStatusText("Please fill out all required fields.");
+      return;
+    }
+
+    setIsPending(true);
+    setStatus(null);
+    setStatusText("");
+
+    try {
+      const response = await submitContact({ firstName, lastName, email, message });
+      if (response.success) {
+        setStatus("success");
+        setStatusText(response.message);
+        // Clear fields on success
+        setFirstName("");
+        setLastName("");
+        setEmail("");
+        setMessage("");
+      } else {
+        setStatus("error");
+        setStatusText(response.message);
+      }
+    } catch (err) {
+      console.error("Contact form submission error:", err);
+      setStatus("error");
+      setStatusText("An unexpected network error occurred. Please try again later.");
+    } finally {
+      setIsPending(false);
+    }
+  };
+
   return (
     <section className="py-20 bg-white">
       <div className="max-w-[1200px] mx-auto px-5 bg-white">
@@ -23,7 +73,7 @@ export default function Contact() {
             {mainParagraph}
           </p>
         </div>
-
+ 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
           {/* Contact Information */}
           <div className="bg-gray-50 rounded-none shadow-sm p-8 border border-gray-100">
@@ -91,14 +141,18 @@ export default function Contact() {
 
           {/* Contact Form */}
           <div className="bg-gray-50 rounded-none shadow-sm p-8 border border-gray-100">
-            <form className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div>
-                  <label htmlFor="firstName" className="block text-sm font-semibold text-gray-600 mb-2">First Name</label>
+                  <label htmlFor="firstName" className="block text-sm font-semibold text-gray-600 mb-2">First Name *</label>
                   <input
                     type="text"
                     id="firstName"
-                    className="w-full px-4 py-3 rounded-none bg-white border border-gray-200 text-secondary focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-colors"
+                    value={firstName}
+                    onChange={(e) => setFirstName(e.target.value)}
+                    required
+                    disabled={isPending}
+                    className="w-full px-4 py-3 rounded-none bg-white border border-gray-200 text-secondary focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-colors disabled:opacity-50"
                     placeholder="John"
                   />
                 </div>
@@ -107,37 +161,71 @@ export default function Contact() {
                   <input
                     type="text"
                     id="lastName"
-                    className="w-full px-4 py-3 rounded-none bg-white border border-gray-200 text-secondary focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-colors"
+                    value={lastName}
+                    onChange={(e) => setLastName(e.target.value)}
+                    disabled={isPending}
+                    className="w-full px-4 py-3 rounded-none bg-white border border-gray-200 text-secondary focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-colors disabled:opacity-50"
                     placeholder="Doe"
                   />
                 </div>
               </div>
 
               <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-gray-600 mb-2">Email Address</label>
+                <label htmlFor="email" className="block text-sm font-semibold text-gray-600 mb-2">Email Address *</label>
                 <input
                   type="email"
                   id="email"
-                  className="w-full px-4 py-3 rounded-none bg-white border border-gray-200 text-secondary focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-colors"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  disabled={isPending}
+                  className="w-full px-4 py-3 rounded-none bg-white border border-gray-200 text-secondary focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-colors disabled:opacity-50"
                   placeholder="john@example.com"
                 />
               </div>
 
               <div>
-                <label htmlFor="message" className="block text-sm font-semibold text-gray-600 mb-2">Message</label>
+                <label htmlFor="message" className="block text-sm font-semibold text-gray-600 mb-2">Message *</label>
                 <textarea
                   id="message"
                   rows={4}
-                  className="w-full px-4 py-3 rounded-none bg-white border border-gray-200 text-secondary focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-colors resize-none"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  required
+                  disabled={isPending}
+                  className="w-full px-4 py-3 rounded-none bg-white border border-gray-200 text-secondary focus:ring-2 focus:ring-primary focus:border-primary outline-none transition-colors resize-none disabled:opacity-50"
                   placeholder="How can we help you?"
                 ></textarea>
               </div>
 
+              {status && (
+                <div 
+                  className={`p-4 text-sm font-medium border ${
+                    status === "success" 
+                      ? "bg-green-50 border-green-200 text-green-700" 
+                      : "bg-red-50 border-red-200 text-red-700"
+                  }`}
+                >
+                  {statusText}
+                </div>
+              )}
+
               <button
                 type="submit"
-                className="w-full bg-primary text-white font-bold py-3 px-6 rounded-none uppercase tracking-wider text-sm hover:bg-primary-hover transition-colors shadow-md hover:shadow-lg"
+                disabled={isPending}
+                className="w-full bg-primary text-white font-bold py-3 px-6 rounded-none uppercase tracking-wider text-sm hover:bg-primary-hover transition-colors shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
               >
-                Send Message
+                {isPending ? (
+                  <>
+                    <svg className="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Sending...
+                  </>
+                ) : (
+                  "Send Message"
+                )}
               </button>
             </form>
           </div>
@@ -146,3 +234,4 @@ export default function Contact() {
     </section>
   );
 }
+
