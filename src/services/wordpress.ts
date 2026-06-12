@@ -168,6 +168,96 @@ export async function getPageBySlug(slug: string): Promise<WPPage | null> {
   return null;
 }
 
+// Helper: Parse images from Elementor/WordPress content HTML
+function parseImagesFromHtml(htmlContent: string): string[] {
+  const imgRegex = /<img[^>]+src="([^">]+)"[^-]*>/gi;
+  const images: string[] = [];
+  let match;
+  while ((match = imgRegex.exec(htmlContent)) !== null) {
+    let src = match[1];
+    if (src.startsWith('//')) src = 'https:' + src;
+    else if (src.startsWith('/')) src = 'https://identifyyou.in' + src;
+    
+    // Whitelist query params removal and filter icons / tracker images
+    if (!src.includes('data:') && !src.endsWith('.svg') && !src.includes('gravatar')) {
+      images.push(src.split('?')[0]);
+    }
+  }
+  return [...new Set(images)];
+}
+
+// Helper: Parse Card components from WordPress Elementor Page content HTML
+function parseCardsFromHtml(htmlContent: string, fallbackSlug: string): WPSolution[] {
+  const cards: WPSolution[] = [];
+  
+  // Extract all images
+  const images = parseImagesFromHtml(htmlContent);
+  
+  // Method 1: Look for Elementor icon boxes or widgets containing titles with links
+  const titleLinkRegex = /<h[34][^>]*>[\s\S]*?<a[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>[\s\S]*?<\/h[34]>/gi;
+  const titles: string[] = [];
+  const links: string[] = [];
+  let match;
+  while ((match = titleLinkRegex.exec(htmlContent)) !== null) {
+    links.push(match[1]);
+    titles.push(match[2].replace(/<[^>]+>/g, '').trim());
+  }
+
+  // Extract paragraphs as excerpts
+  const paragraphs: string[] = [];
+  const pRegex = /<p[^>]*>([\s\S]*?)<\/p>/gi;
+  let pMatch;
+  while ((pMatch = pRegex.exec(htmlContent)) !== null) {
+    const text = pMatch[1].replace(/<[^>]+>/g, '').trim();
+    if (text.length > 20) paragraphs.push(text);
+  }
+
+  const count = Math.max(titles.length, images.length);
+  if (count > 0) {
+    for (let i = 0; i < count; i++) {
+      cards.push({
+        id: i + 500,
+        slug: `${fallbackSlug}-item-${i}`,
+        title: titles[i] || 'Solution Details',
+        imageUrl: images[i] || '/images/Cloud-Data-Migration.png',
+        icon: 'fas fa-arrow-right',
+        features: [],
+        buttonText: 'Case Study',
+        buttonLink: links[i]?.replace('https://identifyyou.in', '') || '#',
+        excerpt: paragraphs[i] || 'Comprehensive solution implementation and customization insights.',
+        content: '',
+      });
+    }
+    return cards;
+  }
+
+  // Method 2: Standard header tag pairs (no links)
+  const headerRegex = /<h[34][^>]*>([\s\S]*?)<\/h[34]>/gi;
+  let hMatch;
+  while ((hMatch = headerRegex.exec(htmlContent)) !== null) {
+    const titleText = hMatch[1].replace(/<[^>]+>/g, '').trim();
+    if (titleText && titleText.length > 3) titles.push(titleText);
+  }
+
+  const pairedCount = Math.min(titles.length, images.length);
+  for (let i = 0; i < pairedCount; i++) {
+    cards.push({
+      id: i + 600,
+      slug: `${fallbackSlug}-item-${i}`,
+      title: titles[i],
+      imageUrl: images[i],
+      icon: 'fas fa-arrow-right',
+      features: [],
+      buttonText: 'Case Study',
+      buttonLink: '#',
+      excerpt: paragraphs[i] || 'Comprehensive solution implementation and customization insights.',
+      content: '',
+    });
+  }
+
+  return cards;
+}
+
 // 2. Posts (Blogs & News) API
 export async function getPosts(params: { perPage?: number; page?: number } = {}): Promise<WPPost[]> {
   const { perPage = 9, page = 1 } = params;
@@ -181,7 +271,6 @@ export async function getPosts(params: { perPage?: number; page?: number } = {})
   }
 
   // Fallback to local scraped blog data
-  // Exclude major standard pages from blog posts
   const mainPages = [
     '/', '/aboutus', '/about-us', '/iiot-vision-ai', '/edge-computing', '/solutions', 
     '/gallery', '/tailored-enterprise-solutions', '/power-bi-case-studies', '/ai-chatbot', 
@@ -208,65 +297,74 @@ export async function getPosts(params: { perPage?: number; page?: number } = {})
     }));
 }
 
-// 3. Case Studies API
-export async function getCaseStudies(): Promise<WPCaseStudy[]> {
+// 3. Case Studies API (Standard Pages layout parsing)
+export async function getCaseStudies(slug: string = 'erp-case-studies'): Promise<WPCaseStudy[]> {
   try {
-    const rawCaseStudies = await fetchAPI<WPRawCaseStudy[]>('/wp/v2/case-studies');
-    if (rawCaseStudies && rawCaseStudies.length > 0) {
-      return rawCaseStudies.map((cs) => ({
-        id: cs.id,
-        slug: cs.slug,
-        title: cs.title?.rendered || '',
-        imageUrl: cs.acf?.featured_image_url || cs.featured_media_url || '/images/Cloud-Data-Migration.png',
-        clientName: cs.acf?.client_name || '',
-        technologiesUsed: cs.acf?.technologies_used ? cs.acf.technologies_used.split(',').map((t: string) => t.trim()) : [],
-        excerpt: cs.acf?.excerpt || cs.excerpt?.rendered?.replace(/<[^>]*>/g, '') || '',
-        link: `/case-study/${cs.slug}`,
-      }));
+    const page = await getPageBySlug(slug);
+    if (page && page.content.rendered) {
+      const html = page.content.rendered;
+      const images = parseImagesFromHtml(html);
+      
+      // Parse headings inside erp-case-studies page content
+      const headings: string[] = [];
+      const headingRegex = /<h[34][^>]*>([\s\S]*?)<\/h[34]>/gi;
+      let match;
+      while ((match = headingRegex.exec(html)) !== null) {
+        const text = match[1].replace(/<[^>]+>/g, '').trim();
+        if (text && text.length > 5 && !text.includes('Case Studies') && !text.includes('Success')) {
+          headings.push(text);
+        }
+      }
+
+      if (headings.length > 0) {
+        return headings.map((heading, index) => ({
+          id: index + 400,
+          slug: `${slug}-${index}`,
+          title: heading,
+          imageUrl: images[index] || '/images/Cloud-Data-Migration.png',
+          clientName: 'Enterprise Client',
+          technologiesUsed: ['Enterprise Tech', 'Analytics'],
+          excerpt: 'Comprehensive operational excellence deployment details.',
+          link: `/${slug}`,
+        }));
+      }
     }
   } catch (error) {
-    console.warn('Failed to fetch case-studies from WordPress REST API. Falling back to local data.', error);
+    console.warn(`Failed to parse case studies from WordPress Page "${slug}". Falling back to local data.`, error);
   }
 
-  // Fallback to local erp/crm/snowflake case studies
-  // We can construct case studies from the headings of erp-case-studies, crm-case-studies, snowflake-case-studies etc
-  const erpPage = pipelineData.find(p => p.slug === '/erp-case-studies' || p.slug === 'erp-case-studies');
+  // Fallback to local pipeline data
+  const erpPage = pipelineData.find(p => p.slug === `/${slug}` || p.slug === slug);
   const erpHeadings = erpPage?.sections?.headings || [];
   const erpImages = erpPage?.images || [];
 
   return erpHeadings.map((heading, index) => ({
     id: index + 100,
-    slug: `erp-case-study-${index}`,
+    slug: `${slug}-${index}`,
     title: heading,
     imageUrl: erpImages[index] || '/images/Cloud-Data-Migration.png',
     clientName: 'Enterprise Client',
     technologiesUsed: ['Microsoft D365', 'ERP', 'Azure'],
     excerpt: 'Digital transformation and operational excellence deployment details.',
-    link: '/erp-case-studies',
+    link: `/${slug}`,
   }));
 }
 
-// 4. Solutions API
-export async function getSolutions(category?: 'crm' | 'erp' | 'ai-ml'): Promise<WPSolution[]> {
+// 4. Solutions API (Standard Pages layout parsing)
+export async function getSolutions(category: 'crm' | 'erp' | 'ai-ml'): Promise<WPSolution[]> {
+  // Map category to WordPress page slugs
+  const slug = category === 'crm' ? 'crm-solutions' : category === 'erp' ? 'erp-solutions' : 'ml-ai';
+  
   try {
-    const endpoint = category ? `/wp/v2/solutions?category=${category}` : '/wp/v2/solutions';
-    const rawSolutions = await fetchAPI<WPRawSolution[]>(endpoint);
-    if (rawSolutions && rawSolutions.length > 0) {
-      return rawSolutions.map((sol) => ({
-        id: sol.id,
-        slug: sol.slug,
-        title: sol.title?.rendered || '',
-        imageUrl: sol.acf?.featured_image_url || sol.featured_media_url || '/images/Cloud-Data-Migration.png',
-        icon: sol.acf?.solution_icon || 'fas fa-cogs',
-        features: sol.acf?.features_list ? sol.acf.features_list.split('\n').filter(Boolean) : [],
-        buttonText: sol.acf?.button_text || 'View Details',
-        buttonLink: sol.acf?.button_link || '#',
-        excerpt: sol.acf?.excerpt || sol.excerpt?.rendered?.replace(/<[^>]*>/g, '') || '',
-        content: sol.content?.rendered || '',
-      }));
+    const page = await getPageBySlug(slug);
+    if (page && page.content.rendered) {
+      const parsed = parseCardsFromHtml(page.content.rendered, slug);
+      if (parsed.length > 0) {
+        return parsed;
+      }
     }
   } catch (error) {
-    console.warn(`Failed to fetch solutions for category "${category}" from WordPress. Falling back to local.`, error);
+    console.warn(`Failed to parse solutions for category "${category}" from WordPress Page. Falling back.`, error);
   }
 
   // Fallback to local solutions mapping
@@ -274,70 +372,45 @@ export async function getSolutions(category?: 'crm' | 'erp' | 'ai-ml'): Promise<
   const pageData = pipelineData.find(p => p.slug === targetSlug || p.slug === `/${targetSlug}`);
   if (!pageData) return [];
 
-  // Simple parser
-  const imgRegex = /<img[^>]+src="([^">]+)"[^>]*>/g;
-  const images: string[] = [];
-  let imgMatch;
-  while ((imgMatch = imgRegex.exec(pageData.content || '')) !== null) {
-    images.push(imgMatch[1]);
-  }
-  
-  const titleRegex = /<h4[^>]*class="[^"]*title[^"]*"[^>]*>[\s\S]*?<a[^>]*href="([^"]+)"[^>]*>([^<]+)<\/a>[\s\S]*?<\/h4>/g;
-  const titles: string[] = [];
-  const links: string[] = [];
-  let titleMatch;
-  while ((titleMatch = titleRegex.exec(pageData.content || '')) !== null) {
-    links.push(titleMatch[1]);
-    titles.push(titleMatch[2].trim());
-  }
-
-  const excerptRegex = /<div class="excerpt">\s*([\s\S]*?)\s*<\/div>/g;
-  const excerpts: string[] = [];
-  let excerptMatch;
-  while ((excerptMatch = excerptRegex.exec(pageData.content || '')) !== null) {
-    excerpts.push(excerptMatch[1].trim());
-  }
-
-  const count = Math.max(titles.length, images.length);
-  const cards: WPSolution[] = [];
-  for (let i = 0; i < count; i++) {
-    if (titles[i] || images[i]) {
-      cards.push({
-        id: i + 200,
-        slug: `${targetSlug}-item-${i}`,
-        title: titles[i] || 'Solution Details',
-        imageUrl: images[i] || '/images/placeholder.jpg',
-        icon: 'fas fa-arrow-right',
-        features: [],
-        buttonText: 'Case Study',
-        buttonLink: links[i]?.replace('https://identifyyou.in', '') || '#',
-        excerpt: excerpts[i] || 'Comprehensive solution implementation and customization insights.',
-        content: '',
-      });
-    }
-  }
-
+  const cards = parseCardsFromHtml(pageData.content || '', targetSlug);
   return cards;
 }
 
-// 5. Gallery API
+// 4b. General Cards Parser (Standard Pages layout parsing)
+export async function getPageCards(slug: string): Promise<WPSolution[]> {
+  try {
+    const page = await getPageBySlug(slug);
+    if (page && page.content.rendered) {
+      const parsed = parseCardsFromHtml(page.content.rendered, slug);
+      if (parsed.length > 0) {
+        return parsed;
+      }
+    }
+  } catch (error) {
+    console.warn(`Failed to parse cards from WordPress Page "${slug}". Falling back to local data.`, error);
+  }
+
+  // Fallback to local crawled pipeline data
+  const pageData = pipelineData.find(
+    (item) => item.slug === slug || item.slug === `/${slug}` || item.slug === slug + '/'
+  );
+  if (pageData) {
+    return parseCardsFromHtml(pageData.content || '', slug);
+  }
+
+  return [];
+}
+
+// 5. Gallery API (Standard Page layout parsing)
 export async function getGalleryImages(): Promise<string[]> {
   try {
-    const rawGallery = await fetchAPI<WPRawGalleryItem[]>('/wp/v2/gallery');
-    if (rawGallery && rawGallery.length > 0) {
-      const images: string[] = [];
-      rawGallery.forEach((item) => {
-        if (item.acf?.gallery_images) {
-          const itemImages = item.acf.gallery_images.map((img: string | { url: string }) => typeof img === 'string' ? img : img.url);
-          images.push(...itemImages);
-        } else if (item.featured_media_url) {
-          images.push(item.featured_media_url);
-        }
-      });
+    const page = await getPageBySlug('gallery');
+    if (page && page.content.rendered) {
+      const images = parseImagesFromHtml(page.content.rendered);
       if (images.length > 0) return images;
     }
   } catch (error) {
-    console.warn('Failed to fetch gallery images from WordPress. Falling back to local gallery data.', error);
+    console.warn('Failed to parse gallery images from WordPress Page. Falling back to local gallery data.', error);
   }
 
   // Fallback to local gallery page data
@@ -345,24 +418,27 @@ export async function getGalleryImages(): Promise<string[]> {
   return galleryPage?.images || [];
 }
 
-// 6. Edge Projects API
+// 6. Edge Projects API (Standard Page layout parsing)
 export async function getEdgeProjects(): Promise<WPEdgeProject[]> {
   try {
-    const rawProjects = await fetchAPI<WPRawEdgeProject[]>('/wp/v2/edge-projects');
-    if (rawProjects && rawProjects.length > 0) {
-      return rawProjects.map((p) => ({
-        id: p.id,
-        slug: p.slug,
-        title: p.title?.rendered || '',
-        imageUrl: p.acf?.featured_image_url || p.featured_media_url || '/images/T40-Edge-Computing-Image.jpg',
-        hardware: p.acf?.project_hardware || 'Fluke Edge Gateway',
-        location: p.acf?.project_location || '',
-        status: p.acf?.project_status || 'Active',
-        content: p.content?.rendered || '',
-      }));
+    const page = await getPageBySlug('edge-computing');
+    if (page && page.content.rendered) {
+      const images = parseImagesFromHtml(page.content.rendered);
+      return [
+        {
+          id: 301,
+          slug: 'edge-computing-project',
+          title: page.title.rendered || 'IIOT - Edge Computing',
+          imageUrl: images[0] || '/images/T40-Edge-Computing-Image.jpg',
+          hardware: 'Fluke Thermalert® T40 & TV30 Pyrometer',
+          location: 'Industrial Plant',
+          status: 'Active',
+          content: page.content.rendered,
+        }
+      ];
     }
   } catch (error) {
-    console.warn('Failed to fetch edge-projects from WordPress. Falling back to local data.', error);
+    console.warn('Failed to fetch edge-projects from WordPress Page. Falling back to local data.', error);
   }
 
   // Fallback to local edge computing page contents
@@ -395,7 +471,6 @@ export async function submitContact(data: {
   const contactFormId = process.env.NEXT_PUBLIC_WP_CONTACT_FORM_ID || 'contact-form';
   
   try {
-    // If contactFormId is numeric, send to CF7 REST endpoint
     if (/^\d+$/.test(contactFormId)) {
       const formData = new FormData();
       formData.append('first-name', data.firstName);
@@ -418,7 +493,6 @@ export async function submitContact(data: {
       }
       return { success: true, message: result.message || 'Thank you! Your message has been sent.' };
     } else {
-      // Simulate/Post to a custom form endpoint
       const res = await fetch(`${BASE_URL}/identifyyou/v1/contact-submit`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -434,7 +508,6 @@ export async function submitContact(data: {
   } catch (error) {
     console.warn('Contact form API submit failed. Running simulation fallback.', error);
     
-    // Simulate successful form submit for user testability/fallback when API is offline/local development
     await new Promise((resolve) => setTimeout(resolve, 1500));
     return {
       success: true,
