@@ -17,13 +17,6 @@ export default function Page() {
       <PageHeader title={pageTitle} />
       
       <div className="py-20 max-w-[1200px] mx-auto px-5 w-full bg-white">
-        {pageData?.content && (
-          <div 
-            className="prose prose-lg max-w-none text-gray-800 prose-headings:text-secondary prose-p:text-gray-700 prose-a:text-primary prose-strong:text-secondary prose-ul:text-gray-600 prose-li:text-gray-600 mb-12"
-            dangerouslySetInnerHTML={{ __html: pageData.content }} 
-          />
-        )}
-
         {images.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {images.map((imgUrl, idx) => (
