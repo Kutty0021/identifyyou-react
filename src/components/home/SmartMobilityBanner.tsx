@@ -26,7 +26,7 @@ export default function SmartMobilityBanner() {
           </p>
           <Link
             href="/smart-mobility"
-            className="inline-block bg-primary text-white font-bold px-10 py-4 text-[14px] tracking-[1px] uppercase hover:bg-[#86b32b] transition-colors shadow-lg"
+            className="inline-block bg-primary text-white font-bold px-10 py-4 text-[14px] tracking-[1px] uppercase hover:bg-primary-hover transition-colors shadow-lg"
           >
             DISCOVER MORE
           </Link>

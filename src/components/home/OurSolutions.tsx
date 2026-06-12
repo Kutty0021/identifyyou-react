@@ -52,7 +52,7 @@ export default function OurSolutions() {
               </p>
               
               <span
-                className="inline-block border-2 border-primary text-white font-bold px-8 py-3 text-[14px] tracking-wider uppercase group-hover:bg-primary transition-colors mt-auto"
+                className="inline-block border-2 border-primary text-white font-bold px-8 py-3 text-[14px] tracking-wider uppercase group-hover:bg-primary group-hover:text-black transition-colors mt-auto"
               >
                 VIEW DETAILS
               </span>

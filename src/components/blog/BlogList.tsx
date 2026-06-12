@@ -25,8 +25,8 @@ export default function BlogList() {
     });
 
   return (
-    <section className="py-20 bg-[#1a1a1a]">
-      <div className="max-w-[1200px] mx-auto px-5">
+    <section className="py-20 bg-black">
+      <div className="max-w-[1200px] mx-auto px-5 bg-black">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h2 className="text-3xl font-bold text-white mb-4">Latest Insights</h2>
           <div className="w-24 h-1 bg-primary mx-auto mb-8"></div>
@@ -37,8 +37,11 @@ export default function BlogList() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {posts.map((post) => (
-            <div key={post.id} className="bg-[#0a0a0a] rounded-xl shadow-lg border border-[#333] overflow-hidden flex flex-col hover:border-gray-500 transition-all duration-300 group">
-              <div className="relative aspect-[16/9] w-full bg-[#121212] overflow-hidden">
+            <div 
+              key={post.id} 
+              className="bg-white rounded-none shadow-sm border border-[#eeeeee] overflow-hidden flex flex-col hover:border-primary transition-all duration-300 group"
+            >
+              <div className="relative aspect-[16/9] w-full bg-gray-100 overflow-hidden">
                 <Image
                   src={post.image}
                   alt={post.title}
@@ -50,17 +53,17 @@ export default function BlogList() {
               <div className="p-6 flex-1 flex flex-col">
                 <div className="flex items-center justify-between mb-3">
                   <span className="text-xs font-semibold text-primary uppercase tracking-wider">{post.category}</span>
-                  <span className="text-xs text-gray-500">{post.date}</span>
+                  <span className="text-xs text-gray-400">{post.date}</span>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3 hover:text-primary transition-colors">
+                <h3 className="text-xl font-bold text-secondary mb-3 hover:text-primary transition-colors leading-snug">
                   <Link href={post.link}>{post.title}</Link>
                 </h3>
-                <p className="text-gray-400 text-sm mb-6 flex-1 leading-relaxed">
+                <p className="text-gray-500 text-[14px] mb-6 flex-1 leading-relaxed">
                   {post.excerpt}
                 </p>
                 <Link
                   href={post.link}
-                  className="text-primary font-medium hover:text-[#86b32b] inline-flex items-center mt-auto uppercase text-xs tracking-wider"
+                  className="text-primary font-bold hover:text-secondary inline-flex items-center mt-auto uppercase text-xs tracking-wider transition-colors"
                 >
                   Read Article
                   <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -1,37 +1,31 @@
 import { getPageDataBySlug, extractCardsFromHtml } from '@/utils/dataFetcher';
 import Link from 'next/link';
 import Image from 'next/image';
+import PageHeader from '@/components/layout/PageHeader';
 
 export const metadata = {
   title: "Our Solutions | Identifyyou",
-  description: "Comprehensive Our Solutions driving digital transformation and operational excellence.",
+  description: "A comprehensive suite of technology solutions designed to accelerate growth.",
 };
 
 export default function SolutionsPage() {
   const pageData = getPageDataBySlug('solutions');
   const cards = pageData ? extractCardsFromHtml(pageData.content || '') : [];
+  const pageTitle = pageData?.title || "Our Solutions";
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#1a1a1a]">
-      {/* Page Header */}
-      <div className="bg-[#121212] pt-[80px] pb-20 border-b border-[#333]">
-        <div className="max-w-[1200px] mx-auto px-5 mt-10">
-          <h1 className="text-[40px] md:text-[50px] font-extrabold text-white text-center mb-4 tracking-tight">Our Solutions</h1>
-          <p className="text-[18px] md:text-[20px] text-gray-400 text-center max-w-3xl mx-auto leading-relaxed">
-            A comprehensive suite of technology solutions designed to modernize your infrastructure and accelerate growth.
-          </p>
-        </div>
-      </div>
-
-      <div className="py-20 max-w-[1200px] mx-auto px-5 w-full">
+    <div className="flex flex-col min-h-screen bg-black">
+      <PageHeader title={pageTitle} />
+      
+      <div className="py-20 max-w-[1200px] mx-auto px-5 w-full bg-black">
         {cards.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {cards.map((card, idx) => {
               const routeUrl = card.link.replace('https://identifyyou.in', '');
               return (
                 <Link key={idx} href={routeUrl || '#'} className="group block h-full">
-                  <div className="bg-[#121212] border border-[#333] rounded-2xl overflow-hidden shadow-lg transition-all duration-300 group-hover:border-[#9ACD32] group-hover:-translate-y-2 h-full flex flex-col">
-                    <div className="relative h-56 w-full bg-[#1a1a1a] overflow-hidden">
+                  <div className="bg-white border border-[#eeeeee] rounded-none overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 hover:border-primary h-full flex flex-col">
+                    <div className="relative h-56 w-full bg-gray-100 overflow-hidden">
                       <Image 
                         src={card.image} 
                         alt={card.title} 
@@ -39,12 +33,11 @@ export default function SolutionsPage() {
                         sizes="(max-width: 768px) 100vw, 33vw"
                         className="object-cover transition-transform duration-500 group-hover:scale-105" 
                       />
-                      <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-300"></div>
                     </div>
                     <div className="p-8 flex flex-col flex-grow">
-                      <h3 className="text-xl font-bold text-white mb-4 group-hover:text-[#9ACD32] transition-colors">{card.title}</h3>
-                      <p className="text-gray-400 leading-relaxed mb-6 flex-grow">{card.excerpt || 'Discover how this solution can benefit your enterprise.'}</p>
-                      <div className="flex items-center text-[#9ACD32] font-semibold mt-auto">
+                      <h3 className="text-xl font-bold text-secondary mb-4 group-hover:text-primary transition-colors leading-snug">{card.title}</h3>
+                      <p className="text-gray-500 leading-relaxed mb-6 flex-grow text-[15px]">{card.excerpt || 'Discover details about this implementation.'}</p>
+                      <div className="flex items-center text-primary font-bold mt-auto group-hover:text-secondary transition-colors">
                         <span className="uppercase tracking-wider text-sm">View Details</span>
                         <svg className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -57,25 +50,9 @@ export default function SolutionsPage() {
             })}
           </div>
         ) : (
-          <div className="text-center text-gray-400 py-10">No solutions found.</div>
+          <div className="text-center text-gray-500 py-10">No entries found for this category.</div>
         )}
       </div>
-
-      {/* CTA */}
-      <section className="py-20 bg-[#121212] border-t border-[#333]">
-        <div className="max-w-[1200px] mx-auto px-5 text-center">
-          <h2 className="text-3xl font-bold text-white mb-6">Ready to Accelerate Your Technology Solutions?</h2>
-          <p className="text-lg text-gray-400 mb-10 max-w-2xl mx-auto">
-            Partner with Identifyyou to leverage cutting-edge technology and domain expertise for your enterprise.
-          </p>
-          <Link
-            href="/contact-us"
-            className="inline-block bg-[#9ACD32] text-white font-bold px-8 py-4 uppercase tracking-wider text-sm hover:bg-[#86b32b] transition-colors shadow-lg hover:shadow-xl rounded-md"
-          >
-            Consult Our Experts
-          </Link>
-        </div>
-      </section>
     </div>
   );
 }

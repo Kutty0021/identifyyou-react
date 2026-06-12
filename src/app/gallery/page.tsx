@@ -1,28 +1,23 @@
 import { getPageDataBySlug } from '@/utils/dataFetcher';
 import Image from 'next/image';
+import PageHeader from '@/components/layout/PageHeader';
 
 export const metadata = {
   title: "Gallery | Identifyyou",
-  description: "Learn more about Gallery and our offerings.",
+  description: "View our photo gallery and structural highlights.",
 };
 
 export default function Page() {
   const pageData = getPageDataBySlug('gallery');
+  const pageTitle = pageData?.title || "Gallery";
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#1a1a1a]">
-      {/* Page Header */}
-      <div className="bg-[#121212] pt-[80px] pb-20 border-b border-[#333]">
-        <div className="max-w-[1200px] mx-auto px-5 mt-10">
-          <h1 className="text-[40px] md:text-[50px] font-extrabold text-white text-center tracking-tight"
-              dangerouslySetInnerHTML={{ __html: pageData?.title || "Gallery" }} 
-          />
-        </div>
-      </div>
+    <div className="flex flex-col min-h-screen bg-white">
+      <PageHeader title={pageTitle} />
       
       <div className="py-20 max-w-[1200px] mx-auto px-5 w-full">
         {pageData && pageData.images && pageData.images.length > 0 && (
-          <div className="mb-12 w-full relative aspect-[21/9] rounded-2xl overflow-hidden shadow-2xl border border-[#333]">
+          <div className="mb-12 w-full relative aspect-[21/9] rounded-none overflow-hidden shadow-md border border-gray-100">
             <Image
               src={pageData.images[0]}
               alt="Gallery Feature image"
@@ -35,25 +30,25 @@ export default function Page() {
 
         {pageData?.content ? (
           <div 
-            className="prose prose-invert prose-lg max-w-none prose-headings:text-white prose-p:text-gray-300 prose-a:text-[#9ACD32] prose-strong:text-white prose-ul:text-gray-300 prose-li:text-gray-300"
+            className="prose prose-lg max-w-none text-gray-800 prose-headings:text-secondary prose-p:text-gray-700 prose-a:text-primary prose-strong:text-secondary prose-ul:text-gray-600 prose-li:text-gray-600"
             dangerouslySetInnerHTML={{ __html: pageData.content }} 
           />
         ) : (
-          <div className="text-center text-gray-400 py-10">Content is being updated.</div>
+          <div className="text-center text-gray-500 py-10">Content is being updated.</div>
         )}
 
         {pageData && pageData.images && pageData.images.length > 1 && (
           <div className="mt-20">
-            <h3 className="text-3xl font-bold text-white mb-10 border-b border-[#333] pb-4">Gallery Overview</h3>
+            <h3 className="text-3xl font-bold text-secondary mb-10 border-b border-gray-100 pb-4">Gallery Overview</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
               {pageData.images.slice(1).map((imgUrl, idx) => (
-                <div key={idx} className="relative aspect-square rounded-xl overflow-hidden shadow-lg border border-[#333] group">
+                <div key={idx} className="relative aspect-square rounded-none overflow-hidden shadow-sm border border-gray-100 group">
                   <Image
                     src={imgUrl}
                     alt={`Gallery image ${idx + 1}`}
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover group-hover:scale-110 transition-transform duration-500"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
               ))}
