@@ -1,79 +1,189 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
-import data from "@/data/api_pipeline_data.json";
+import { useState } from "react";
+import scrapedData from "@/data/scraped_data.json";
 
 export default function BlogList() {
-  // Filter for blogs/news
-  const posts = data
-    .filter(item => item.slug.startsWith("/category/") || item.slug.includes("blog") || item.slug.includes("news"))
-    .slice(0, 6)
+  const [currentPage, setCurrentPage] = useState(1);
+  const postsPerPage = 9;
+
+  // List of main pages to exclude from the blog post list
+  const mainPages = [
+    '/', '/aboutus', '/about-us', '/iiot-vision-ai', '/edge-computing', '/solutions', 
+    '/gallery', '/tailored-enterprise-solutions', '/power-bi-case-studies', '/ai-chatbot', 
+    '/ml-ai', '/smart-mobility', '/snowflake-case-studies', '/power-app-case-studies', 
+    '/crm-case-studies', '/erp-case-studies', '/case-study', '/erp-solutions', 
+    '/crm-solutions', '/services', '/contact-us', '/blogs-news', '/privacy-policy', 
+    '/terms-of-service', '/privacy-policy-2', '/my-account-2', '/my-account-3', 
+    '/faqs', '/team-grid', '/testimonials', '/testimonial-request-form', '/for-clients', 
+    '/terms-and-conditions'
+  ];
+
+  // Filter for actual blog posts
+  const allPosts = scrapedData
+    .filter(item => !mainPages.includes(item.slug) && item.paragraphs && item.paragraphs.length > 0)
     .map((post, idx) => {
-      const category = post.slug.split('/')[2] || "News";
       const imageFile = post.images && post.images.length > 0 
         ? post.images[0] 
-        : "/images/placeholder.jpg";
+        : "/images/Cloud-Data-Migration.png";
+      const cleanTitle = post.title.replace(' – identifyyou.in', '').trim();
+      const excerpt = post.paragraphs[0] ? post.paragraphs[0].substring(0, 140) + "..." : "";
       
       return {
         id: idx,
-        title: post.title,
-        category: category.toUpperCase(),
+        title: cleanTitle,
+        category: "INSIGHTS",
         date: "Recent",
-        excerpt: post.sections.paragraphs && post.sections.paragraphs.length > 0 ? post.sections.paragraphs[0].substring(0, 150) + "..." : "",
+        excerpt: excerpt,
         image: imageFile,
         link: post.slug
       };
     });
 
+  // Pagination calculations
+  const totalPosts = allPosts.length;
+  const totalPages = Math.ceil(totalPosts / postsPerPage);
+  const indexOfLastPost = currentPage * postsPerPage;
+  const indexOfFirstPost = indexOfLastPost - postsPerPage;
+  const currentPosts = allPosts.slice(indexOfFirstPost, indexOfLastPost);
+
+  const paginate = (pageNumber: number) => {
+    setCurrentPage(pageNumber);
+    // Scroll to top of list smoothly
+    window.scrollTo({ top: 300, behavior: 'smooth' });
+  };
+
+  // Generate page numbers to display
+  const pageNumbers = [];
+  const maxPageButtons = 5;
+  let startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
+  let endPage = Math.min(totalPages, startPage + maxPageButtons - 1);
+
+  if (endPage - startPage + 1 < maxPageButtons) {
+    startPage = Math.max(1, endPage - maxPageButtons + 1);
+  }
+
+  for (let i = startPage; i <= endPage; i++) {
+    pageNumbers.push(i);
+  }
+
   return (
     <section className="py-20 bg-black">
       <div className="max-w-[1200px] mx-auto px-5 bg-black">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl font-bold text-white mb-4">Latest Insights</h2>
+          <h2 className="text-[40px] md:text-[50px] font-extrabold text-white mb-6 tracking-tight">Latest Insights</h2>
           <div className="w-24 h-1 bg-primary mx-auto mb-8"></div>
           <p className="text-lg text-gray-400">
             Read our latest articles, news, and technical deep-dives from the Identifyyou team.
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.map((post) => (
-            <div 
-              key={post.id} 
-              className="bg-white rounded-none shadow-sm border border-[#eeeeee] overflow-hidden flex flex-col hover:border-primary transition-all duration-300 group"
-            >
-              <div className="relative aspect-[16/9] w-full bg-gray-100 overflow-hidden">
-                <Image
-                  src={post.image}
-                  alt={post.title}
-                  fill
-                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100"
-                />
-              </div>
-              <div className="p-6 flex-1 flex flex-col">
-                <div className="flex items-center justify-between mb-3">
-                  <span className="text-xs font-semibold text-primary uppercase tracking-wider">{post.category}</span>
-                  <span className="text-xs text-gray-400">{post.date}</span>
-                </div>
-                <h3 className="text-xl font-bold text-secondary mb-3 hover:text-primary transition-colors leading-snug">
-                  <Link href={post.link}>{post.title}</Link>
-                </h3>
-                <p className="text-gray-500 text-[14px] mb-6 flex-1 leading-relaxed">
-                  {post.excerpt}
-                </p>
-                <Link
-                  href={post.link}
-                  className="text-primary font-bold hover:text-secondary inline-flex items-center mt-auto uppercase text-xs tracking-wider transition-colors"
+        {currentPosts.length > 0 ? (
+          <>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              {currentPosts.map((post) => (
+                <div 
+                  key={post.id} 
+                  className="bg-white rounded-none shadow-sm border border-[#eeeeee] overflow-hidden flex flex-col hover:border-primary transition-all duration-300 group"
                 >
-                  Read Article
-                  <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                  </svg>
-                </Link>
-              </div>
+                  <div className="relative aspect-[16/9] w-full bg-gray-100 overflow-hidden">
+                    <Image
+                      src={post.image}
+                      alt={post.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                      className="object-cover group-hover:scale-105 transition-transform duration-700 opacity-90 group-hover:opacity-100"
+                    />
+                  </div>
+                  <div className="p-6 flex-1 flex flex-col">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-xs font-semibold text-primary uppercase tracking-wider">{post.category}</span>
+                      <span className="text-xs text-gray-400">{post.date}</span>
+                    </div>
+                    <h3 className="text-xl font-bold text-secondary mb-3 hover:text-primary transition-colors leading-snug h-14 overflow-hidden text-ellipsis line-clamp-2">
+                      <Link href={post.link}>{post.title}</Link>
+                    </h3>
+                    <p className="text-gray-500 text-[14px] mb-6 flex-1 leading-relaxed line-clamp-3">
+                      {post.excerpt}
+                    </p>
+                    <Link
+                      href={post.link}
+                      className="text-primary font-bold hover:text-secondary inline-flex items-center mt-auto uppercase text-xs tracking-wider transition-colors"
+                    >
+                      Read Article
+                      <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </Link>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
+
+            {/* Pagination Controls */}
+            {totalPages > 1 && (
+              <div className="flex justify-center items-center mt-16 space-x-2">
+                <button
+                  onClick={() => currentPage > 1 && paginate(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="px-4 py-2 border border-gray-800 text-gray-400 hover:border-primary hover:text-primary disabled:opacity-30 disabled:hover:border-gray-800 disabled:hover:text-gray-400 transition-colors duration-200 uppercase font-semibold text-xs tracking-wider"
+                >
+                  Prev
+                </button>
+
+                {startPage > 1 && (
+                  <>
+                    <button
+                      onClick={() => paginate(1)}
+                      className="w-10 h-10 flex items-center justify-center border border-gray-800 text-gray-400 hover:border-primary hover:text-primary transition-colors duration-200 text-sm font-semibold"
+                    >
+                      1
+                    </button>
+                    {startPage > 2 && <span className="text-gray-600">...</span>}
+                  </>
+                )}
+
+                {pageNumbers.map(number => (
+                  <button
+                    key={number}
+                    onClick={() => paginate(number)}
+                    className={`w-10 h-10 flex items-center justify-center border text-sm font-semibold transition-colors duration-200 ${
+                      currentPage === number
+                        ? "border-primary bg-primary text-black"
+                        : "border-gray-800 text-gray-400 hover:border-primary hover:text-primary"
+                    }`}
+                  >
+                    {number}
+                  </button>
+                ))}
+
+                {endPage < totalPages && (
+                  <>
+                    {endPage < totalPages - 1 && <span className="text-gray-600">...</span>}
+                    <button
+                      onClick={() => paginate(totalPages)}
+                      className="w-10 h-10 flex items-center justify-center border border-gray-800 text-gray-400 hover:border-primary hover:text-primary transition-colors duration-200 text-sm font-semibold"
+                    >
+                      {totalPages}
+                    </button>
+                  </>
+                )}
+
+                <button
+                  onClick={() => currentPage < totalPages && paginate(currentPage + 1)}
+                  disabled={currentPage === totalPages}
+                  className="px-4 py-2 border border-gray-800 text-gray-400 hover:border-primary hover:text-primary disabled:opacity-30 disabled:hover:border-gray-800 disabled:hover:text-gray-400 transition-colors duration-200 uppercase font-semibold text-xs tracking-wider"
+                >
+                  Next
+                </button>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="text-center text-gray-500 py-10">No articles found.</div>
+        )}
       </div>
     </section>
   );
