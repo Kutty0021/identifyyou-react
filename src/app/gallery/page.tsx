@@ -77,7 +77,7 @@ export default function Page() {
 
       {/* Fullscreen Lightbox Modal */}
       {selectedIdx !== null && (
-        <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 select-none">
+        <div className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-4 select-none animate-fade-in">
           {/* Backdrop close click */}
           <div className="absolute inset-0 cursor-zoom-out" onClick={() => setSelectedIdx(null)}></div>
           
@@ -119,7 +119,7 @@ export default function Page() {
           )}
 
           {/* Centered Image */}
-          <div className="relative max-w-full max-h-[90vh] flex flex-col justify-center items-center z-10 pointer-events-none">
+          <div className="relative max-w-full max-h-[90vh] flex flex-col justify-center items-center z-10 pointer-events-none animate-zoom-in">
             <div className="relative w-[90vw] h-[80vh] md:w-[80vw] md:h-[80vh]">
               <Image
                 src={images[selectedIdx]}
