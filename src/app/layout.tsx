@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Cardo } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
+import ScrollManager from "@/components/layout/ScrollManager";
 import "./globals.css";
 
 const inter = Inter({
@@ -46,6 +47,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${cardo.variable} font-sans antialiased min-h-full flex flex-col overflow-x-hidden`}
       >
+        <ScrollManager />
         <Header />
         <main className="flex-grow pt-[80px]">
           {children}
